@@ -41,8 +41,6 @@
         const ChevronUp = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m18 15-6-6-6 6"/></svg>;
         const Moon = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
         const Sun = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
-        const Database = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>;
-        const Home = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
 
         // --- Veriler ---
         const ALL_LEAGUES = ["NWSL", "WSL", "Liga F", "Frauen-Bundesliga", "D1 Arkema", "Serie A Femminile", "Damallsvenskan", "A-League Women"];
@@ -62,59 +60,8 @@
           { id: 10, playerName: "Tabitha Chawinga", playerPhotoUrl: "", nationality: "Malawi", position: "FW", fromClub: "PSG", toClub: "Olympique Lyon", league: "D1 Arkema", date: "2024-07-02", fee: "Transfer Fee" }
         ];
 
-        // --- BİLEŞEN: YÖNETİM PANELİ ---
-        function AdminPanel() {
-            return (
-                <div className="max-w-4xl mx-auto px-4 py-8">
-                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
-                        <div className="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
-                            <Database className="w-8 h-8 text-fuchsia-600 dark:text-fuchsia-400" />
-                            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Veritabanı Yönetimi</h2>
-                        </div>
-                        
-                        <p className="text-slate-600 dark:text-slate-400 mb-6">
-                            İleride buraya Firebase veya kendi API'nızı bağlayarak yeni transferleri, ligleri ve oyuncuları sisteme ekleyebileceğiniz bir form arayüzü kurabilirsiniz.
-                        </p>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="flex flex-col gap-1">
-                                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Oyuncu Adı</label>
-                                <input type="text" placeholder="Örn: Alex Morgan" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white" />
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Fotoğraf Linki (URL)</label>
-                                <input type="text" placeholder="Örn: https://i.ibb.co/..." className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white" />
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Uyruk</label>
-                                <input type="text" placeholder="Örn: ABD" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white" />
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Mevki</label>
-                                <input type="text" placeholder="Örn: FW" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white" />
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Eski Takımı</label>
-                                <input type="text" placeholder="Örn: San Diego Wave" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white" />
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Yeni Takımı</label>
-                                <input type="text" placeholder="Örn: Bay FC" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white" />
-                            </div>
-                            <div className="md:col-span-2 mt-4">
-                                <button className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold py-3 rounded-lg transition-colors">
-                                    Transferi Veritabanına Ekle
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
         // --- ANA UYGULAMA ---
         function App() {
-          const [currentPage, setCurrentPage] = useState('home');
           const [isFilterOpen, setIsFilterOpen] = useState(false);
           const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -188,32 +135,14 @@
                         <h1 className="text-xl sm:text-2xl font-bold tracking-tight">W-Transfer</h1>
                       </div>
                       
-                      {/* Navigasyon Menüsü */}
+                      {/* Tema Değiştirme Butonu */}
                       <div className="flex items-center gap-1 sm:gap-4">
-                        <button 
-                          onClick={() => setCurrentPage('home')}
-                          className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${currentPage === 'home' ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'}`}
-                        >
-                          <Home className="w-5 h-5" />
-                          <span className="hidden md:inline">Transferler</span>
-                        </button>
-                        
-                        <button 
-                          onClick={() => setCurrentPage('admin')}
-                          className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${currentPage === 'admin' ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'}`}
-                        >
-                          <Database className="w-5 h-5" />
-                          <span className="hidden md:inline">Yönetim Paneli</span>
-                        </button>
-
-                        <div className="w-px h-6 bg-fuchsia-400/50 mx-2"></div>
-
                         <button 
                           onClick={() => setIsDarkMode(!isDarkMode)}
                           className="p-2 rounded-full hover:bg-white/20 transition-colors focus:outline-none"
-                          title="Toggle Dark Mode"
+                          title="Karanlık Modu Değiştir"
                         >
-                          {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                          {isDarkMode ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
                         </button>
                       </div>
                     </div>
@@ -221,11 +150,10 @@
                 </header>
 
                 {/* SAYFA İÇERİĞİ RENDER EDİLİYOR */}
-                {currentPage === 'home' ? (
-                  <main className="max-w-6xl mx-auto px-4 py-8">
-                    <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden transition-colors duration-300">
-                      <button 
-                        onClick={() => setIsFilterOpen(!isFilterOpen)}
+                <main className="max-w-6xl mx-auto px-4 py-8">
+                  <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden transition-colors duration-300">
+                    <button 
+                      onClick={() => setIsFilterOpen(!isFilterOpen)}
                         className="w-full flex items-center justify-between p-4 md:p-5 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors focus:outline-none"
                       >
                         <div className="flex items-center gap-2 font-semibold text-lg">
@@ -379,23 +307,20 @@
                                 {transfer.league}
                               </div>
                               <div className="flex flex-col items-end gap-1">
-                                <span className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                                  <Calendar className="w-4 h-4" />
-                                  {formatDate(transfer.date)}
-                                </span>
-                                <span className="text-xs font-medium text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded transition-colors duration-300">
-                                  {transfer.fee}
-                                </span>
-                              </div>
+                              <span className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                                <Calendar className="w-4 h-4" />
+                                {formatDate(transfer.date)}
+                              </span>
+                              <span className="text-xs font-medium text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded transition-colors duration-300">
+                                {transfer.fee}
+                              </span>
                             </div>
                           </div>
-                        ))
-                      )}
-                    </div>
-                  </main>
-                ) : (
-                  <AdminPanel />
-                )}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </main>
 
               </div>
             </div>
