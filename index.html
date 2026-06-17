@@ -1,4 +1,5 @@
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,45 +24,17 @@
 
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- ÇÖZÜM: Hata vermemesi için Babel sürümü stabil bir versiyona sabitlendi -->
     <script src="https://unpkg.com/@babel/standalone@7.23.6/babel.min.js"></script>
-
-    <!-- Firebase Kütüphaneleri (Veritabanı için) -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
     
     <div id="root"></div>
 
+    <!-- ÇÖZÜM: 'data-type="module"' eklenerek "Cannot use import statement..." hatası giderildi -->
     <script type="text/babel" data-type="module">
-        const { useState, useMemo, useEffect } = React;
-
-        // =====================================================================
-        // 🔴 FİREBASE AYARLARI 🔴
-        // Firebase Console'dan aldığınız bilgileri aşağıdaki tırnakların içine yapıştırın.
-        // Ayarları yapana kadar site örnek verilerle (mockTransfers) çalışmaya devam edecektir.
-        // =====================================================================
-        const firebaseConfig = {
-          apiKey: "AIzaSyDws-R-axRQwA_DUwqz3iDFBzN1iKla-Zg",
-          authDomain: "womentransfer.firebaseapp.com",
-          projectId: "womentransfer",
-          storageBucket: "womentransfer.firebasestorage.app",
-          messagingSenderId: "598396441390",
-          appId: "1:598396441390:web:527769e4bca9c2ce4760bf",
-          measurementId: "G-FMSYNZDQ6F"
-        };
-
-        let db = null;
-        if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "AIzaSyDws-R-axRQwA_DUwqz3iDFBzN1iKla-Zg" && firebaseConfig.apiKey.length > 5) {
-            try {
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }
-                db = firebase.firestore();
-            } catch (error) {
-                console.error("Firebase bağlantı hatası:", error);
-            }
-        }
+        const { useState, useMemo } = React;
 
         // --- Icons ---
         const Search = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>;
@@ -73,12 +46,10 @@
         const ChevronUp = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m18 15-6-6-6 6"/></svg>;
         const Moon = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
         const Sun = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
-        const Database = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>;
-        const Home = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
 
         // --- Data ---
         const ALL_LEAGUES = ["NWSL", "WSL", "Liga F", "Frauen-Bundesliga", "Arkema Première Ligue", "Serie A Femminile", "Damallsvenskan", "A-League Women", "Toppserien", "Brasileiro Women", "Liga MX Femenil", "1a Divisão Women", "WE League", "WSL 2", "Eredivisie Women", "Elitedivisionen", "Kansallinen Liiga", "Úrvalsdeild Women", "Swiss Women's Super League", "Turkcell Kadın Süper Ligi", "Elitettan", "Serie B Femminile", "Seconde Ligue", "2. Frauen Bundesliga", "USL Super League", "Primera Federación", "WK League", "Saudi Women's Premier League"];
-        const ALL_NATIONALITIES = ["Albania", "Algeria", "Angola", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Belgium", "Bolivia", "Bosnia and Herzegovina", "Brazil", "Bulgaria", "Burkina Faso", "Cameroon", "Canada", "Chile", "Colombia", "Costa Rica", "Côte d'Ivoire", "Croatia", "Cuba", "Czechia", "Denmark", "Ecuador", "Egypt", "England", "Finland", "France", "Gabon", "Georgia", "Germany", "Ghana", "Greece", "Hungary", "Iceland", "India", "Indonesia", "Ireland", "Italy", "Jamaica", "Japan", "Kazakhstan", "Kenya", "Korea", "Kyrgyzstan", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Mali", "Mexico", "Montenegro", "Morocco", "Netherlands", "New Zealand", "Nigeria", "Norway", "Northern Ireland", "Northern Macedonia", "Panama", "Paraguay", "Peru", "Poland", "Portugal", "Puerto Rico", "Romania", "Russia", "Saudi Arabia", "Scotland", "Senegal", "Serbia", "Slovakia", "Slovenia", "South Africa", "Spain", "Sweden", "Switzerland", "Thailand", "Togo", "Trinidad and Tobago", "Tunisia", "Türkiye", "Uganda", "Ukraine", "USA", "Uruguay", "Uzbekistan", "Venezuela", "Wales", "Zambia", "Zimbabwe"]; 
+        const ALL_NATIONALITIES = ["Albania", "Algeria", "Angola", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Belgium", "Bolivia", "Bosnia and Herzegovina", "Brazil", "Bulgaria", "Burkina Faso", "Cameroon", "Canada", "Chile", "Colombia", "Costa Rica", "Côte d'Ivoire", "Croatia", "Cuba", "Czechia", "Denmark", "Ecuador", "Egypt", "Endland", "Finland", "France", "Gabon", "Georgia", "Germany", "Ghana", "Greece", "Hungary", "Iceland", "India", "Indonesia", "Ireland", "Italy", "Jamaica", "Japan", "Kazakhstan", "Kenya", "Korea", "Kyrgyzstan", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Mali", "Mexico", "Montenegro", "Morocco", "Netherlands", "New Zealand", "Nigeria", "Norway", "Northern Ireland", "Northern Macedonia", "Panama", "Paraguay", "Peru", "Poland", "Portugal", "Puerto Rico", "Romania", "Russia", "Saudi Arabia", "Scotland", "Senegal", "Serbia", "Slovakia", "Slovenia", "South Africa", "Spain", "Sweden", "Switzerland", "Thailand", "Togo", "Trinidad and Tobago", "Tunisia", "Türkiye", "Uganda", "Ukraine", "USA", "Uruguay", "Uzbekistan", "Venezuela", "Wales", "Zambia", "Zimbabwe"]; 
         const ALL_TEAMS = ["Aston Villa", "Chelsea", "Arsenal", "Manchester City", "Manchester United", "Birmingham City", "Brighton & Hove Albion", "Charlton Athletic", "Crystal Palace", "Everton", "Liverpool", "London City Lionesses", "Tottenham Hotspur", "Portland Thorns", "Gotham FC", "West Ham United", "Angel City", "Dijon", "Fleury", "Le Havre", "OL Lyonnes", "Marseille", "Montpellier", "Nantes", "Paris FC", "Paris Saint-Germain", "Saint-Malo", "Strasbourg", "Toulouse", "Union Berlin", "Werder Bremen", "Eintracht Frankfurt", "SC Freiburg", "Hamburger SV", "TSG Hoffenheim", "1. FC Köln", "RB Leipzig", "Bayer Leverkusen", "Mainz 05", "Bayern Munich", "1. FC Nürnberg", "VfB Stuttgart", "VfL Wolfsburg", "Borussia Dortmund", "Bay FC", "Boston Legacy", "Chicago Stars", "Denver Summit", "Houston Dash", "Kansas City Current", "North Carolina Courage", "Orlando Pride", "Racing Louisville", "San Diego Wave", "Seattle Reign", "Utah Royals", "Washington Spirit", "Como", "Fiorentina", "Inter Milan", "Juventus", "Lazio", "Milan", "Napoli", "Parma", "AS Roma", "Sassuolo", "Ternana", "Genoa", "Corinthians", "SL Benfica", "Häcken", "Palmeiras", "Ajax", "Alavés", "Athletic Club", "Atlético Madrid", "Barcelona", "Deportivo Abanca", "DUX Logroño", "Eibar", "Espanyol", "Granada", "Badalona", "Madrid CF", "Real Madrid", "Real Sociedad", "Sevilla", "Tenerife", "Valencia", "Levante", "Celtic", "Brann", "Dinamo-BGU", "Mamelodi Sundowns", "Slavia Praha", "Boca Juniors", "América", "Glasgow City", "Rangers", "Hammarby", "Tigres UANL", "Internacional RS", "Minsk", "Twente", "Santos", "St. Pölten", "Monterrey", "Rosengård", "Vålerenga", "Servette Chênois", "Galatasaray", "Fomget", "Fenerbahçe", "Al Ahli", "Breidablik", "Sporting CP", "Zürich", "Linköping", "Kristianstad", "Nordsjælland", "Valur"];
         
         const mockTransfers = [
@@ -93,211 +64,34 @@
           { id: 9, playerName: "Lineth Beerensteyn", playerPhotoUrl: "https://github.com/user-attachments/assets/b378f83d-1851-4b3d-ad63-ad489b106d5e", nationality: "Netherlands", position: "ST", fromClub: "VFL Wolfsburg", toClub: "Real Madrid", league: "Liga F", date: "2026-06-16", fee: "Free Transfer" },
         ];
 
-
-         // --- BİLEŞEN: YÖNETİM PANELİ ---
-        function AdminPanel() {
-            const [isAuthenticated, setIsAuthenticated] = useState(false);
-            const [passwordInput, setPasswordInput] = useState('');
-            const [loginError, setLoginError] = useState(false);
-            
-            // 🔴 KENDİ ŞİFRENİZİ BURADAN BELİRLEYEBİLİRSİNİZ 🔴
-            const ADMIN_PASSWORD = "18082002"; 
-
-            const [formData, setFormData] = useState({
-                playerName: '', playerPhotoUrl: '', nationality: '', position: '', fromClub: '', toClub: '', league: '', fee: '', date: new Date().toISOString().split('T')[0]
-            });
-            const [isSubmitting, setIsSubmitting] = useState(false);
-
-            const handleLogin = (e) => {
-                e.preventDefault();
-                if(passwordInput === ADMIN_PASSWORD) {
-                    setIsAuthenticated(true);
-                    setLoginError(false);
-                } else {
-                    setLoginError(true);
-                    setPasswordInput('');
-                }
-            };
-
-            const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-            const handleSubmit = async (e) => {
-                e.preventDefault();
-                if (!db) {
-                    alert("Firebase veritabanı henüz bağlanmadı! Bilgilerinizi doldurun.");
-                    return;
-                }
-
-                setIsSubmitting(true);
-                try {
-                    await db.collection("transfers").add({
-                        ...formData,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    alert("✅ Transfer başarıyla eklendi! (Zapier gibi otomasyonunuz varsa artık Tweet atılmış olmalı)");
-                    setFormData({ playerName: '', playerPhotoUrl: '', nationality: '', position: '', fromClub: '', toClub: '', league: '', fee: '', date: new Date().toISOString().split('T')[0] });
-                } catch (error) {
-                    console.error("Hata:", error);
-                    alert("Veritabanına eklenirken hata oluştu: " + error.message);
-                }
-                setIsSubmitting(false);
-            };
-
-            if (!isAuthenticated) {
-                return (
-                    <div className="max-w-md mx-auto mt-10">
-                        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-8">
-                            <div className="flex flex-col items-center justify-center mb-6">
-                                <div className="bg-fuchsia-100 dark:bg-fuchsia-500/20 p-3 rounded-full mb-3">
-                                    <Lock className="w-8 h-8 text-fuchsia-600 dark:text-fuchsia-400" />
-                                </div>
-                                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Yönetici Girişi</h2>
-                                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 text-center">Transfer eklemek için lütfen yetkili şifresini giriniz.</p>
-                            </div>
-
-                            <form onSubmit={handleLogin} className="flex flex-col gap-4">
-                                <div>
-                                    <input 
-                                        type="password" 
-                                        placeholder="Şifre"
-                                        value={passwordInput} 
-                                        onChange={(e) => setPasswordInput(e.target.value)} 
-                                        className="w-full p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500 transition-all text-center tracking-widest"
-                                    />
-                                    {loginError && <p className="text-red-500 text-xs mt-2 text-center font-medium">Hatalı şifre, lütfen tekrar deneyin.</p>}
-                                </div>
-                                <button type="submit" className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold py-3 rounded-lg transition-colors mt-2">
-                                    Giriş Yap
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                );
-            }
-
-            return (
-                <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
-                    <div className="flex items-center gap-3 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
-                        <Database className="w-8 h-8 text-fuchsia-600 dark:text-fuchsia-400" />
-                        <div>
-                            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Veritabanı Yönetimi</h2>
-                            {!db ? (
-                                <p className="text-sm text-red-500 mt-1 font-medium">⚠️ Firebase bağlı değil. Kod içerisindeki ayarları doldurun.</p>
-                            ) : (
-                                <p className="text-sm text-emerald-500 mt-1 font-medium">✅ Firebase bağlı ve aktif. Veri ekleyebilirsiniz.</p>
-                            )}
-                        </div>
-                    </div>
-                    
-                    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Oyuncu Adı *</label>
-                            <input required name="playerName" value={formData.playerName} onChange={handleChange} type="text" placeholder="Örn: Alex Morgan" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Fotoğraf Linki (Github Raw Linki vb.)</label>
-                            <input name="playerPhotoUrl" value={formData.playerPhotoUrl} onChange={handleChange} type="url" placeholder="https://github.com/..." className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Uyruk *</label>
-                            <select required name="nationality" value={formData.nationality} onChange={handleChange} className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500">
-                                <option value="">Seçiniz...</option>
-                                {ALL_NATIONALITIES.map(n => <option key={n} value={n}>{n}</option>)}
-                            </select>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Mevki *</label>
-                            <select required name="position" value={formData.position} onChange={handleChange} className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500">
-                                <option value="">Seçiniz...</option>
-                                <option value="GK">GK</option><option value="CB">CB</option><option value="LB">LB</option><option value="RB">RB</option>
-                                <option value="CM">CM</option><option value="CDM">CDM</option><option value="CAM">CAM</option>
-                                <option value="LW">LW</option><option value="RW">RW</option><option value="ST">ST</option><option value="FW">FW</option>
-                            </select>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Eski Takımı *</label>
-                            <input required name="fromClub" value={formData.fromClub} onChange={handleChange} list="team-list" placeholder="Örn: San Diego Wave" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Yeni Takımı *</label>
-                            <input required name="toClub" value={formData.toClub} onChange={handleChange} list="team-list" placeholder="Örn: Bay FC" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Yeni Lig *</label>
-                            <select required name="league" value={formData.league} onChange={handleChange} className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500">
-                                <option value="">Seçiniz...</option>
-                                {ALL_LEAGUES.map(l => <option key={l} value={l}>{l}</option>)}
-                            </select>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Bonservis / Ücret</label>
-                            <input name="fee" value={formData.fee} onChange={handleChange} type="text" placeholder="Örn: Free Transfer" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Transfer Tarihi *</label>
-                            <input required name="date" value={formData.date} onChange={handleChange} type="date" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
-                        </div>
-                        
-                        <datalist id="team-list">
-                            {ALL_TEAMS.map(team => <option key={team} value={team} />)}
-                        </datalist>
-
-                        <div className="md:col-span-2 mt-2">
-                            <button 
-                                type="submit" 
-                                disabled={isSubmitting || !db}
-                                className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 disabled:bg-slate-400 text-white font-semibold py-3.5 rounded-lg transition-colors flex items-center justify-center gap-2"
-                            >
-                                {isSubmitting ? "Ekleniyor..." : "Veritabanına Ekle (ve Otomatik Tweet At)"}
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            );
-        }
-
-        // --- ANA UYGULAMA ---
+        // --- MAIN APP ---
         function App() {
-          const [currentPage, setCurrentPage] = useState('home');
           const [isFilterOpen, setIsFilterOpen] = useState(false);
           const [isDarkMode, setIsDarkMode] = useState(false);
-          
-          const [dbTransfers, setDbTransfers] = useState([]);
-          const [isFirebaseActive, setIsFirebaseActive] = useState(false);
 
           const [leagueFilter, setLeagueFilter] = useState('');
           const [nationalityFilter, setNationalityFilter] = useState('');
           const [teamFilter, setTeamFilter] = useState(''); 
           const [sortOrder, setSortOrder] = useState('newest'); 
 
-          // Firebase'den Verileri Dinleme
-          useEffect(() => {
-              if (db) {
-                  setIsFirebaseActive(true);
-                  const unsubscribe = db.collection("transfers").orderBy("date", "desc").onSnapshot(snapshot => {
-                      const transfersData = snapshot.docs.map(doc => ({
-                          id: doc.id,
-                          ...doc.data()
-                      }));
-                      setDbTransfers(transfersData);
-                  }, error => {
-                      console.error("Veri çekme hatası:", error);
-                  });
-                  return () => unsubscribe();
-              }
-          }, []);
-
-          // Eğer Firebase aktifse oradaki verileri göster, değilse yedek (mock) verileri göster
-          const actualTransfers = (isFirebaseActive && dbTransfers.length > 0) ? dbTransfers : mockTransfers;
-
-          const uniqueLeagues = useMemo(() => [...new Set([...ALL_LEAGUES, ...actualTransfers.map(t => t.league)])].sort(), [actualTransfers]);
-          const uniqueNationalities = useMemo(() => [...new Set([...ALL_NATIONALITIES, ...actualTransfers.map(t => t.nationality)])].sort(), [actualTransfers]);
-          const uniqueTeams = useMemo(() => [...new Set([...ALL_TEAMS, ...actualTransfers.map(t => t.toClub), ...actualTransfers.map(t => t.fromClub)])].sort(), [actualTransfers]);
+          const uniqueLeagues = useMemo(() => [...new Set([...ALL_LEAGUES, ...mockTransfers.map(t => t.league)])].sort(), []);
+          const uniqueNationalities = useMemo(() => [...new Set([...ALL_NATIONALITIES, ...mockTransfers.map(t => t.nationality)])].sort(), []);
+          const uniqueTeams = useMemo(() => [...new Set([...ALL_TEAMS, ...mockTransfers.map(t => t.toClub), ...mockTransfers.map(t => t.fromClub)])].sort(), []);
 
           const handleFilterChange = (type, value) => {
-            if (type === 'league') { setLeagueFilter(leagueFilter === value ? '' : value); setNationalityFilter(''); setTeamFilter(''); }
-            else if (type === 'nationality') { setLeagueFilter(''); setNationalityFilter(nationalityFilter === value ? '' : value); setTeamFilter(''); }
-            else if (type === 'team') { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(teamFilter === value ? '' : value); }
+            if (type === 'league') {
+              setLeagueFilter(leagueFilter === value ? '' : value);
+              setNationalityFilter('');
+              setTeamFilter('');
+            } else if (type === 'nationality') {
+              setLeagueFilter('');
+              setNationalityFilter(nationalityFilter === value ? '' : value);
+              setTeamFilter('');
+            } else if (type === 'team') {
+              setLeagueFilter('');
+              setNationalityFilter('');
+              setTeamFilter(teamFilter === value ? '' : value);
+            }
           };
 
           const handleQuickFilter = (type, value) => {
@@ -306,27 +100,37 @@
           };
 
           const filteredAndSortedTransfers = useMemo(() => {
-            let result = actualTransfers;
-            if (leagueFilter) result = result.filter(t => t.league === leagueFilter);
-            if (nationalityFilter) result = result.filter(t => t.nationality === nationalityFilter);
-            if (teamFilter) result = result.filter(t => t.toClub === teamFilter || t.fromClub === teamFilter);
+            let result = mockTransfers;
 
-            return [...result].sort((a, b) => {
+            if (leagueFilter) {
+              result = result.filter(t => t.league === leagueFilter);
+            }
+            if (nationalityFilter) {
+              result = result.filter(t => t.nationality === nationalityFilter);
+            }
+            if (teamFilter) {
+              result = result.filter(t => t.toClub === teamFilter || t.fromClub === teamFilter);
+            }
+
+            result = [...result].sort((a, b) => {
               const dateA = new Date(a.date);
               const dateB = new Date(b.date);
               return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
             });
-          }, [actualTransfers, leagueFilter, nationalityFilter, teamFilter, sortOrder]);
+
+            return result;
+          }, [leagueFilter, nationalityFilter, teamFilter, sortOrder]);
 
           const formatDate = (dateString) => {
-            return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
           };
 
           return (
             <div className={isDarkMode ? 'dark' : ''}>
               <div className="min-h-screen bg-slate-50 dark:bg-slate-900 font-sans transition-colors duration-300">
                 
-                {/* Header */}
+                {/* Header & Navigation */}
                 <header className="bg-gradient-to-r from-fuchsia-700 to-purple-800 text-white shadow-md sticky top-0 z-10">
                   <div className="max-w-6xl mx-auto px-4 py-4">
                     <div className="flex justify-between items-center">
@@ -335,26 +139,8 @@
                         <h1 className="text-xl sm:text-2xl font-bold tracking-tight">W-Transfer Tracker</h1>
                       </div>
                       
-                      {/* Navigasyon */}
+                      {/* Dark Mode Toggle */}
                       <div className="flex items-center gap-1 sm:gap-4">
-                        <button 
-                          onClick={() => setCurrentPage('home')}
-                          className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${currentPage === 'home' ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'}`}
-                        >
-                          <Home className="w-5 h-5" />
-                          <span className="hidden md:inline">Transfers</span>
-                        </button>
-                        
-                        <button 
-                          onClick={() => setCurrentPage('admin')}
-                          className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${currentPage === 'admin' ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'}`}
-                        >
-                          <Database className="w-5 h-5" />
-                          <span className="hidden md:inline">Admin Panel</span>
-                        </button>
-
-                        <div className="w-px h-6 bg-fuchsia-400/50 mx-2"></div>
-
                         <button 
                           onClick={() => setIsDarkMode(!isDarkMode)}
                           className="p-2 rounded-full hover:bg-white/20 transition-colors focus:outline-none"
@@ -367,190 +153,191 @@
                   </div>
                 </header>
 
+                {/* PAGE CONTENT */}
                 <main className="max-w-6xl mx-auto px-4 py-8">
-                  {currentPage === 'admin' ? (
-                      <AdminPanel />
-                  ) : (
-                      <>
-                        {/* Filtreleme Kartı */}
-                        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden transition-colors duration-300">
-                            <button 
-                            onClick={() => setIsFilterOpen(!isFilterOpen)}
-                                className="w-full flex items-center justify-between p-4 md:p-5 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors focus:outline-none"
-                            >
-                                <div className="flex items-center gap-2 font-semibold text-lg">
-                                <Filter className="w-5 h-5 text-fuchsia-600 dark:text-fuchsia-400" />
-                                <h2>Filter and Sort</h2>
-                                {(leagueFilter || nationalityFilter || teamFilter) && !isFilterOpen && (
-                                    <span className="ml-2 bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-700 dark:text-fuchsia-300 text-xs px-2 py-0.5 rounded-full transition-colors">
-                                    Active
-                                    </span>
-                                )}
-                                </div>
-                                {isFilterOpen ? <ChevronUp className="w-5 h-5 text-slate-400 dark:text-slate-500" /> : <ChevronDown className="w-5 h-5 text-slate-400 dark:text-slate-500" />}
-                            </button>
-                            
-                            {isFilterOpen && (
-                                <div className="p-4 md:p-5 border-t border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 transition-colors duration-300">
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    <div className="flex flex-col gap-1">
-                                    <label className="text-sm text-slate-500 dark:text-slate-400 font-medium">League</label>
-                                    <select 
-                                        className="p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all dark:text-slate-200"
-                                        value={leagueFilter}
-                                        onChange={(e) => handleFilterChange('league', e.target.value)}
-                                    >
-                                        <option value="">All Leagues</option>
-                                        {uniqueLeagues.map(league => <option key={league} value={league}>{league}</option>)}
-                                    </select>
-                                    </div>
-
-                                    <div className="flex flex-col gap-1">
-                                    <label className="text-sm text-slate-500 dark:text-slate-400 font-medium">Nationality</label>
-                                    <select 
-                                        className="p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all dark:text-slate-200"
-                                        value={nationalityFilter}
-                                        onChange={(e) => handleFilterChange('nationality', e.target.value)}
-                                    >
-                                        <option value="">All Nationalities</option>
-                                        {uniqueNationalities.map(nat => <option key={nat} value={nat}>{nat}</option>)}
-                                    </select>
-                                    </div>
-
-                                    <div className="flex flex-col gap-1">
-                                    <label className="text-sm text-slate-500 dark:text-slate-400 font-medium">Team</label>
-                                    <select 
-                                        className="p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all dark:text-slate-200"
-                                        value={teamFilter}
-                                        onChange={(e) => handleFilterChange('team', e.target.value)}
-                                    >
-                                        <option value="">All Teams</option>
-                                        {uniqueTeams.map(team => <option key={team} value={team}>{team}</option>)}
-                                    </select>
-                                    </div>
-
-                                    <div className="flex flex-col gap-1">
-                                    <label className="text-sm text-slate-500 dark:text-slate-400 font-medium">Sort By</label>
-                                    <select 
-                                        className="p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all dark:text-slate-200"
-                                        value={sortOrder}
-                                        onChange={(e) => setSortOrder(e.target.value)}
-                                    >
-                                        <option value="newest">Newest Transfers</option>
-                                        <option value="oldest">Oldest Transfers</option>
-                                    </select>
-                                    </div>
-                                </div>
-                                </div>
-                            )}
+                  <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden transition-colors duration-300">
+                    <button 
+                      onClick={() => setIsFilterOpen(!isFilterOpen)}
+                        className="w-full flex items-center justify-between p-4 md:p-5 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors focus:outline-none"
+                      >
+                        <div className="flex items-center gap-2 font-semibold text-lg">
+                          <Filter className="w-5 h-5 text-fuchsia-600 dark:text-fuchsia-400" />
+                          <h2>Filter and Sort</h2>
+                          {(leagueFilter || nationalityFilter || teamFilter) && !isFilterOpen && (
+                            <span className="ml-2 bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-700 dark:text-fuchsia-300 text-xs px-2 py-0.5 rounded-full transition-colors">
+                              Active
+                            </span>
+                          )}
                         </div>
-
-                        {/* Transfer Listesi */}
-                        <div className="space-y-4">
-                            {filteredAndSortedTransfers.length === 0 ? (
-                            <div className="text-center py-12 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors duration-300">
-                                <Search className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
-                                <p className="text-slate-500 dark:text-slate-400 text-lg">No transfers found matching your filters.</p>
-                                <button 
-                                onClick={() => { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(''); }}
-                                className="mt-4 text-fuchsia-600 dark:text-fuchsia-400 font-medium hover:text-fuchsia-700 dark:hover:text-fuchsia-300"
-                                >
-                                Clear Filters
-                                </button>
+                        {isFilterOpen ? <ChevronUp className="w-5 h-5 text-slate-400 dark:text-slate-500" /> : <ChevronDown className="w-5 h-5 text-slate-400 dark:text-slate-500" />}
+                      </button>
+                      
+                      {isFilterOpen && (
+                        <div className="p-4 md:p-5 border-t border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 transition-colors duration-300">
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="flex flex-col gap-1">
+                              <label className="text-sm text-slate-500 dark:text-slate-400 font-medium">League</label>
+                              <select 
+                                className="p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all dark:text-slate-200"
+                                value={leagueFilter}
+                                onChange={(e) => handleFilterChange('league', e.target.value)}
+                              >
+                                <option value="">All Leagues</option>
+                                {uniqueLeagues.map(league => (
+                                  <option key={league} value={league}>{league}</option>
+                                ))}
+                              </select>
                             </div>
-                            ) : (
-                            filteredAndSortedTransfers.map((transfer) => (
-                                <div 
-                                id={`transfer-card-${transfer.id}`}
-                                key={transfer.id} 
-                                className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-4 md:p-6 hover:shadow-md transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
-                                >
-                                <div className="flex items-center gap-4 w-full md:w-1/3">
-                                    <div className="relative flex-none w-14 h-14">
-                                    <img 
-                                        src={transfer.playerPhotoUrl ? transfer.playerPhotoUrl : `https://ui-avatars.com/api/?name=${encodeURIComponent(transfer.playerName)}&background=e879f9&color=fff&size=64&bold=true`} 
-                                        alt={transfer.playerName} 
-                                        className="w-full h-full rounded-full shadow-sm object-cover border-2 border-fuchsia-100 dark:border-fuchsia-900"
-                                        onError={(e) => {
-                                        e.target.onerror = null; 
-                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(transfer.playerName)}&background=e879f9&color=fff&size=64&bold=true`;
-                                        }}
-                                    />
-                                    </div>
 
-                                    <div>
-                                    <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100 leading-tight">{transfer.playerName}</h3>
-                                    <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
-                                        <span 
-                                        onClick={() => handleQuickFilter('nationality', transfer.nationality)}
-                                        className="cursor-pointer hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors"
-                                        title="Filter by nationality"
-                                        >
-                                        {transfer.nationality}
-                                        </span> 
-                                        <span className="text-slate-300 dark:text-slate-600 mx-1">•</span> 
-                                        <span className="font-semibold text-slate-600 dark:text-slate-300">{transfer.position}</span>
-                                    </p>
-                                    </div>
-                                </div>
+                            <div className="flex flex-col gap-1">
+                              <label className="text-sm text-slate-500 dark:text-slate-400 font-medium">Nationality</label>
+                              <select 
+                                className="p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all dark:text-slate-200"
+                                value={nationalityFilter}
+                                onChange={(e) => handleFilterChange('nationality', e.target.value)}
+                              >
+                                <option value="">All Nationalities</option>
+                                {uniqueNationalities.map(nat => (
+                                  <option key={nat} value={nat}>{nat}</option>
+                                ))}
+                              </select>
+                            </div>
 
-                                <div className="flex items-center justify-start md:justify-center gap-3 w-full md:w-1/3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-100 dark:border-slate-700 transition-colors duration-300">
-                                    <div className="text-right flex-1">
-                                    <span 
-                                        onClick={() => handleQuickFilter('team', transfer.fromClub)}
-                                        className="text-sm font-medium text-slate-600 dark:text-slate-300 block line-clamp-1 cursor-pointer hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors" 
-                                        title={`Filter by ${transfer.fromClub}`}
-                                    >
-                                        {transfer.fromClub}
-                                    </span>
-                                    </div>
-                                    <div className="bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-600 dark:text-fuchsia-400 p-1.5 rounded-full shrink-0 transition-colors">
-                                    <ArrowRight className="w-4 h-4" />
-                                    </div>
-                                    <div className="text-left flex-1">
-                                    <span 
-                                        onClick={() => handleQuickFilter('team', transfer.toClub)}
-                                        className="text-sm font-bold text-slate-800 dark:text-slate-100 block line-clamp-1 cursor-pointer hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors" 
-                                        title={`Filter by ${transfer.toClub}`}
-                                    >
-                                        {transfer.toClub}
-                                    </span>
-                                    </div>
-                                </div>
+                            <div className="flex flex-col gap-1">
+                              <label className="text-sm text-slate-500 dark:text-slate-400 font-medium">Team</label>
+                              <select 
+                                className="p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all dark:text-slate-200"
+                                value={teamFilter}
+                                onChange={(e) => handleFilterChange('team', e.target.value)}
+                              >
+                                <option value="">All Teams</option>
+                                {uniqueTeams.map(team => (
+                                  <option key={team} value={team}>{team}</option>
+                                ))}
+                              </select>
+                            </div>
 
-                                <div className="flex flex-row md:flex-col justify-between items-center md:items-end w-full md:w-1/3 gap-2">
-                                    <div 
-                                    onClick={() => handleQuickFilter('league', transfer.league)}
-                                    className="flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 px-3 py-1 rounded-full text-xs font-semibold cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-500/30 transition-colors"
-                                    title={`Filter by ${transfer.league}`}
-                                    >
-                                    {transfer.league}
-                                    </div>
-                                    <div className="flex flex-col items-end gap-1">
-                                    <span className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                                        <Calendar className="w-4 h-4" />
-                                        {formatDate(transfer.date)}
-                                    </span>
-                                    <span className="text-xs font-medium text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded transition-colors duration-300">
-                                        {transfer.fee}
-                                    </span>
-                                    </div>
-                                </div>
-                                </div>
-                            ))
-                            )}
+                            <div className="flex flex-col gap-1">
+                              <label className="text-sm text-slate-500 dark:text-slate-400 font-medium">Sort By</label>
+                              <select 
+                                className="p-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all dark:text-slate-200"
+                                value={sortOrder}
+                                onChange={(e) => setSortOrder(e.target.value)}
+                              >
+                                <option value="newest">Newest Transfers</option>
+                                <option value="oldest">Oldest Transfers</option>
+                              </select>
+                            </div>
+                          </div>
                         </div>
-                      </>
+                      )}
+                  </div>
+
+                  <div className="space-y-4">
+                    {filteredAndSortedTransfers.length === 0 ? (
+                      <div className="text-center py-12 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors duration-300">
+                        <Search className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+                        <p className="text-slate-500 dark:text-slate-400 text-lg">No transfers found matching your filters.</p>
+                        <button 
+                          onClick={() => {
+                            setLeagueFilter(''); setNationalityFilter(''); setTeamFilter('');
+                          }}
+                          className="mt-4 text-fuchsia-600 dark:text-fuchsia-400 font-medium hover:text-fuchsia-700 dark:hover:text-fuchsia-300"
+                        >
+                          Clear Filters
+                        </button>
+                      </div>
+                    ) : (
+                      filteredAndSortedTransfers.map((transfer) => (
+                        <div 
+                          key={transfer.id} 
+                          className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-4 md:p-6 hover:shadow-md transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                        >
+                          <div className="flex items-center gap-4 w-full md:w-1/3">
+                            
+                            <div className="relative flex-none w-14 h-14">
+                              <img 
+                                src={transfer.playerPhotoUrl ? transfer.playerPhotoUrl : `https://ui-avatars.com/api/?name=${encodeURIComponent(transfer.playerName)}&background=e879f9&color=fff&size=64&bold=true`} 
+                                alt={transfer.playerName} 
+                                className="w-full h-full rounded-full shadow-sm object-cover border-2 border-fuchsia-100 dark:border-fuchsia-900"
+                                onError={(e) => {
+                                  e.target.onerror = null; 
+                                  e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(transfer.playerName)}&background=e879f9&color=fff&size=64&bold=true`;
+                                }}
+                              />
+                            </div>
+
+                            <div>
+                              <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100 leading-tight">{transfer.playerName}</h3>
+                              <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-1">
+                                <span 
+                                  onClick={() => handleQuickFilter('nationality', transfer.nationality)}
+                                  className="cursor-pointer hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors"
+                                  title="Filter by nationality"
+                                >
+                                  {transfer.nationality}
+                                </span> 
+                                <span className="text-slate-300 dark:text-slate-600 mx-1">•</span> 
+                                <span className="font-semibold text-slate-600 dark:text-slate-300">{transfer.position}</span>
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-start md:justify-center gap-3 w-full md:w-1/3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg border border-slate-100 dark:border-slate-700 transition-colors duration-300">
+                            <div className="text-right flex-1">
+                              <span 
+                                onClick={() => handleQuickFilter('team', transfer.fromClub)}
+                                className="text-sm font-medium text-slate-600 dark:text-slate-300 block line-clamp-1 cursor-pointer hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors" 
+                                title={`Filter by ${transfer.fromClub}`}
+                              >
+                                {transfer.fromClub}
+                              </span>
+                            </div>
+                            <div className="bg-fuchsia-100 dark:bg-fuchsia-500/20 text-fuchsia-600 dark:text-fuchsia-400 p-1.5 rounded-full shrink-0 transition-colors">
+                              <ArrowRight className="w-4 h-4" />
+                            </div>
+                            <div className="text-left flex-1">
+                              <span 
+                                onClick={() => handleQuickFilter('team', transfer.toClub)}
+                                className="text-sm font-bold text-slate-800 dark:text-slate-100 block line-clamp-1 cursor-pointer hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors" 
+                                title={`Filter by ${transfer.toClub}`}
+                              >
+                                {transfer.toClub}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-row md:flex-col justify-between items-center md:items-end w-full md:w-1/3 gap-2">
+                            <div 
+                              onClick={() => handleQuickFilter('league', transfer.league)}
+                              className="flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 px-3 py-1 rounded-full text-xs font-semibold cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-500/30 transition-colors"
+                              title={`Filter by ${transfer.league}`}
+                            >
+                              {transfer.league}
+                            </div>
+                            <div className="flex flex-col items-end gap-1">
+                            <span className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                              <Calendar className="w-4 h-4" />
+                              {formatDate(transfer.date)}
+                            </span>
+                            <span className="text-xs font-medium text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded transition-colors duration-300">
+                              {transfer.fee}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
                   )}
-                </main>
+                </div>
+              </main>
 
-              </div>
             </div>
-          );
-        }
+          </div>
+        );
+      }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+  </script>
 </body>
 </html>
