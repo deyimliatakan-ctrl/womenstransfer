@@ -94,48 +94,86 @@
         ];
 
 
-        // =====================================================================
-        // --- BİLEŞEN: YÖNETİM PANELİ (ADMIN) ---
-        // =====================================================================
+         // --- BİLEŞEN: YÖNETİM PANELİ ---
         function AdminPanel() {
+            const [isAuthenticated, setIsAuthenticated] = useState(false);
+            const [passwordInput, setPasswordInput] = useState('');
+            const [loginError, setLoginError] = useState(false);
+            
+            // 🔴 KENDİ ŞİFRENİZİ BURADAN BELİRLEYEBİLİRSİNİZ 🔴
+            const ADMIN_PASSWORD = "18082002"; 
+
             const [formData, setFormData] = useState({
                 playerName: '', playerPhotoUrl: '', nationality: '', position: '', fromClub: '', toClub: '', league: '', fee: '', date: new Date().toISOString().split('T')[0]
             });
             const [isSubmitting, setIsSubmitting] = useState(false);
 
-            const handleChange = (e) => {
-                setFormData({ ...formData, [e.target.name]: e.target.value });
+            const handleLogin = (e) => {
+                e.preventDefault();
+                if(passwordInput === ADMIN_PASSWORD) {
+                    setIsAuthenticated(true);
+                    setLoginError(false);
+                } else {
+                    setLoginError(true);
+                    setPasswordInput('');
+                }
             };
+
+            const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
             const handleSubmit = async (e) => {
                 e.preventDefault();
-                
-                // Firebase ayarlanmamışsa uyar
                 if (!db) {
-                    alert("Firebase veritabanı henüz bağlanmadı! Kodun içindeki 'firebaseConfig' ayarlarını doldurduğunuzdan emin olun.");
+                    alert("Firebase veritabanı henüz bağlanmadı! Bilgilerinizi doldurun.");
                     return;
                 }
 
                 setIsSubmitting(true);
                 try {
-                    // Firebase 'transfers' koleksiyonuna veriyi ekliyoruz
                     await db.collection("transfers").add({
                         ...formData,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp() // Otomasyonlar (Zapier) için tetikleyici zaman damgası
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    
-                    alert("✅ Transfer başarıyla veritabanına eklendi! (Otomasyonunuz kuruluysa tweet atılmış olmalı)");
-                    
-                    // Formu temizle
-                    setFormData({
-                        playerName: '', playerPhotoUrl: '', nationality: '', position: '', fromClub: '', toClub: '', league: '', fee: '', date: new Date().toISOString().split('T')[0]
-                    });
+                    alert("✅ Transfer başarıyla eklendi! (Zapier gibi otomasyonunuz varsa artık Tweet atılmış olmalı)");
+                    setFormData({ playerName: '', playerPhotoUrl: '', nationality: '', position: '', fromClub: '', toClub: '', league: '', fee: '', date: new Date().toISOString().split('T')[0] });
                 } catch (error) {
                     console.error("Hata:", error);
-                    alert("Veritabanına eklenirken bir hata oluştu.");
+                    alert("Veritabanına eklenirken hata oluştu: " + error.message);
                 }
                 setIsSubmitting(false);
             };
+
+            if (!isAuthenticated) {
+                return (
+                    <div className="max-w-md mx-auto mt-10">
+                        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-8">
+                            <div className="flex flex-col items-center justify-center mb-6">
+                                <div className="bg-fuchsia-100 dark:bg-fuchsia-500/20 p-3 rounded-full mb-3">
+                                    <Lock className="w-8 h-8 text-fuchsia-600 dark:text-fuchsia-400" />
+                                </div>
+                                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Yönetici Girişi</h2>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 text-center">Transfer eklemek için lütfen yetkili şifresini giriniz.</p>
+                            </div>
+
+                            <form onSubmit={handleLogin} className="flex flex-col gap-4">
+                                <div>
+                                    <input 
+                                        type="password" 
+                                        placeholder="Şifre"
+                                        value={passwordInput} 
+                                        onChange={(e) => setPasswordInput(e.target.value)} 
+                                        className="w-full p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500 transition-all text-center tracking-widest"
+                                    />
+                                    {loginError && <p className="text-red-500 text-xs mt-2 text-center font-medium">Hatalı şifre, lütfen tekrar deneyin.</p>}
+                                </div>
+                                <button type="submit" className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold py-3 rounded-lg transition-colors mt-2">
+                                    Giriş Yap
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                );
+            }
 
             return (
                 <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
@@ -144,9 +182,9 @@
                         <div>
                             <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Veritabanı Yönetimi</h2>
                             {!db ? (
-                                <p className="text-sm text-red-500 mt-1 font-medium">⚠️ Firebase bağlı değil. Aşağıdaki form çalışmayacaktır.</p>
+                                <p className="text-sm text-red-500 mt-1 font-medium">⚠️ Firebase bağlı değil. Kod içerisindeki ayarları doldurun.</p>
                             ) : (
-                                <p className="text-sm text-emerald-500 mt-1 font-medium">✅ Firebase bağlı ve aktif.</p>
+                                <p className="text-sm text-emerald-500 mt-1 font-medium">✅ Firebase bağlı ve aktif. Veri ekleyebilirsiniz.</p>
                             )}
                         </div>
                     </div>
@@ -157,8 +195,8 @@
                             <input required name="playerName" value={formData.playerName} onChange={handleChange} type="text" placeholder="Örn: Alex Morgan" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Fotoğraf Linki (Github Raw Linki vs.)</label>
-                            <input name="playerPhotoUrl" value={formData.playerPhotoUrl} onChange={handleChange} type="url" placeholder="https://..." className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
+                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Fotoğraf Linki (Github Raw Linki vb.)</label>
+                            <input name="playerPhotoUrl" value={formData.playerPhotoUrl} onChange={handleChange} type="url" placeholder="https://github.com/..." className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
                         </div>
                         <div className="flex flex-col gap-1">
                             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Uyruk *</label>
@@ -171,17 +209,9 @@
                             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Mevki *</label>
                             <select required name="position" value={formData.position} onChange={handleChange} className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500">
                                 <option value="">Seçiniz...</option>
-                                <option value="GK">GK (Kaleci)</option>
-                                <option value="CB">CB (Stoper)</option>
-                                <option value="LB">LB (Sol Bek)</option>
-                                <option value="RB">RB (Sağ Bek)</option>
-                                <option value="CM">CM (Merkez Orta Saha)</option>
-                                <option value="CDM">CDM (Ön Libero)</option>
-                                <option value="CAM">CAM (Ofansif Orta Saha)</option>
-                                <option value="LW">LW (Sol Kanat)</option>
-                                <option value="RW">RW (Sağ Kanat)</option>
-                                <option value="ST">ST (Santrfor)</option>
-                                <option value="FW">FW (Hücum)</option>
+                                <option value="GK">GK</option><option value="CB">CB</option><option value="LB">LB</option><option value="RB">RB</option>
+                                <option value="CM">CM</option><option value="CDM">CDM</option><option value="CAM">CAM</option>
+                                <option value="LW">LW</option><option value="RW">RW</option><option value="ST">ST</option><option value="FW">FW</option>
                             </select>
                         </div>
                         <div className="flex flex-col gap-1">
@@ -201,7 +231,7 @@
                         </div>
                         <div className="flex flex-col gap-1">
                             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Bonservis / Ücret</label>
-                            <input name="fee" value={formData.fee} onChange={handleChange} type="text" placeholder="Örn: Free Transfer, Record Fee vb." className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
+                            <input name="fee" value={formData.fee} onChange={handleChange} type="text" placeholder="Örn: Free Transfer" className="p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-fuchsia-500" />
                         </div>
                         <div className="flex flex-col gap-1">
                             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Transfer Tarihi *</label>
@@ -226,14 +256,12 @@
             );
         }
 
-
         // --- ANA UYGULAMA ---
         function App() {
-          const [currentPage, setCurrentPage] = useState('home'); // Sayfa yönlendirme (home / admin)
+          const [currentPage, setCurrentPage] = useState('home');
           const [isFilterOpen, setIsFilterOpen] = useState(false);
           const [isDarkMode, setIsDarkMode] = useState(false);
           
-          // Veritabanı state'i
           const [dbTransfers, setDbTransfers] = useState([]);
           const [isFirebaseActive, setIsFirebaseActive] = useState(false);
 
@@ -242,23 +270,24 @@
           const [teamFilter, setTeamFilter] = useState(''); 
           const [sortOrder, setSortOrder] = useState('newest'); 
 
-          // === FİREBASE'DEN VERİLERİ ÇEKME İŞLEMİ ===
+          // Firebase'den Verileri Dinleme
           useEffect(() => {
               if (db) {
                   setIsFirebaseActive(true);
-                  // "transfers" koleksiyonunu dinliyor
                   const unsubscribe = db.collection("transfers").orderBy("date", "desc").onSnapshot(snapshot => {
                       const transfersData = snapshot.docs.map(doc => ({
                           id: doc.id,
                           ...doc.data()
                       }));
                       setDbTransfers(transfersData);
+                  }, error => {
+                      console.error("Veri çekme hatası:", error);
                   });
                   return () => unsubscribe();
               }
           }, []);
 
-          // Eğer veritabanı aktifse oradan gelen verileri kullan, değilse örnek verileri göster.
+          // Eğer Firebase aktifse oradaki verileri göster, değilse yedek (mock) verileri göster
           const actualTransfers = (isFirebaseActive && dbTransfers.length > 0) ? dbTransfers : mockTransfers;
 
           const uniqueLeagues = useMemo(() => [...new Set([...ALL_LEAGUES, ...actualTransfers.map(t => t.league)])].sort(), [actualTransfers]);
@@ -266,19 +295,9 @@
           const uniqueTeams = useMemo(() => [...new Set([...ALL_TEAMS, ...actualTransfers.map(t => t.toClub), ...actualTransfers.map(t => t.fromClub)])].sort(), [actualTransfers]);
 
           const handleFilterChange = (type, value) => {
-            if (type === 'league') {
-              setLeagueFilter(leagueFilter === value ? '' : value);
-              setNationalityFilter('');
-              setTeamFilter('');
-            } else if (type === 'nationality') {
-              setLeagueFilter('');
-              setNationalityFilter(nationalityFilter === value ? '' : value);
-              setTeamFilter('');
-            } else if (type === 'team') {
-              setLeagueFilter('');
-              setNationalityFilter('');
-              setTeamFilter(teamFilter === value ? '' : value);
-            }
+            if (type === 'league') { setLeagueFilter(leagueFilter === value ? '' : value); setNationalityFilter(''); setTeamFilter(''); }
+            else if (type === 'nationality') { setLeagueFilter(''); setNationalityFilter(nationalityFilter === value ? '' : value); setTeamFilter(''); }
+            else if (type === 'team') { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(teamFilter === value ? '' : value); }
           };
 
           const handleQuickFilter = (type, value) => {
@@ -288,36 +307,26 @@
 
           const filteredAndSortedTransfers = useMemo(() => {
             let result = actualTransfers;
+            if (leagueFilter) result = result.filter(t => t.league === leagueFilter);
+            if (nationalityFilter) result = result.filter(t => t.nationality === nationalityFilter);
+            if (teamFilter) result = result.filter(t => t.toClub === teamFilter || t.fromClub === teamFilter);
 
-            if (leagueFilter) {
-              result = result.filter(t => t.league === leagueFilter);
-            }
-            if (nationalityFilter) {
-              result = result.filter(t => t.nationality === nationalityFilter);
-            }
-            if (teamFilter) {
-              result = result.filter(t => t.toClub === teamFilter || t.fromClub === teamFilter);
-            }
-
-            result = [...result].sort((a, b) => {
+            return [...result].sort((a, b) => {
               const dateA = new Date(a.date);
               const dateB = new Date(b.date);
               return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
             });
-
-            return result;
           }, [actualTransfers, leagueFilter, nationalityFilter, teamFilter, sortOrder]);
 
           const formatDate = (dateString) => {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
+            return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
           };
 
           return (
             <div className={isDarkMode ? 'dark' : ''}>
               <div className="min-h-screen bg-slate-50 dark:bg-slate-900 font-sans transition-colors duration-300">
                 
-                {/* Header & Navigation */}
+                {/* Header */}
                 <header className="bg-gradient-to-r from-fuchsia-700 to-purple-800 text-white shadow-md sticky top-0 z-10">
                   <div className="max-w-6xl mx-auto px-4 py-4">
                     <div className="flex justify-between items-center">
@@ -326,7 +335,7 @@
                         <h1 className="text-xl sm:text-2xl font-bold tracking-tight">W-Transfer Tracker</h1>
                       </div>
                       
-                      {/* Navigasyon & Dark Mode */}
+                      {/* Navigasyon */}
                       <div className="flex items-center gap-1 sm:gap-4">
                         <button 
                           onClick={() => setCurrentPage('home')}
@@ -358,12 +367,12 @@
                   </div>
                 </header>
 
-                {/* YÖNLENDİRME (ROUTING) - Hangi sayfa seçiliyse onu render et */}
                 <main className="max-w-6xl mx-auto px-4 py-8">
                   {currentPage === 'admin' ? (
                       <AdminPanel />
                   ) : (
                       <>
+                        {/* Filtreleme Kartı */}
                         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden transition-colors duration-300">
                             <button 
                             onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -392,9 +401,7 @@
                                         onChange={(e) => handleFilterChange('league', e.target.value)}
                                     >
                                         <option value="">All Leagues</option>
-                                        {uniqueLeagues.map(league => (
-                                        <option key={league} value={league}>{league}</option>
-                                        ))}
+                                        {uniqueLeagues.map(league => <option key={league} value={league}>{league}</option>)}
                                     </select>
                                     </div>
 
@@ -406,9 +413,7 @@
                                         onChange={(e) => handleFilterChange('nationality', e.target.value)}
                                     >
                                         <option value="">All Nationalities</option>
-                                        {uniqueNationalities.map(nat => (
-                                        <option key={nat} value={nat}>{nat}</option>
-                                        ))}
+                                        {uniqueNationalities.map(nat => <option key={nat} value={nat}>{nat}</option>)}
                                     </select>
                                     </div>
 
@@ -420,9 +425,7 @@
                                         onChange={(e) => handleFilterChange('team', e.target.value)}
                                     >
                                         <option value="">All Teams</option>
-                                        {uniqueTeams.map(team => (
-                                        <option key={team} value={team}>{team}</option>
-                                        ))}
+                                        {uniqueTeams.map(team => <option key={team} value={team}>{team}</option>)}
                                     </select>
                                     </div>
 
@@ -442,15 +445,14 @@
                             )}
                         </div>
 
+                        {/* Transfer Listesi */}
                         <div className="space-y-4">
                             {filteredAndSortedTransfers.length === 0 ? (
                             <div className="text-center py-12 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors duration-300">
                                 <Search className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
                                 <p className="text-slate-500 dark:text-slate-400 text-lg">No transfers found matching your filters.</p>
                                 <button 
-                                onClick={() => {
-                                    setLeagueFilter(''); setNationalityFilter(''); setTeamFilter('');
-                                }}
+                                onClick={() => { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(''); }}
                                 className="mt-4 text-fuchsia-600 dark:text-fuchsia-400 font-medium hover:text-fuchsia-700 dark:hover:text-fuchsia-300"
                                 >
                                 Clear Filters
@@ -459,11 +461,11 @@
                             ) : (
                             filteredAndSortedTransfers.map((transfer) => (
                                 <div 
+                                id={`transfer-card-${transfer.id}`}
                                 key={transfer.id} 
                                 className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-4 md:p-6 hover:shadow-md transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
                                 >
                                 <div className="flex items-center gap-4 w-full md:w-1/3">
-                                    
                                     <div className="relative flex-none w-14 h-14">
                                     <img 
                                         src={transfer.playerPhotoUrl ? transfer.playerPhotoUrl : `https://ui-avatars.com/api/?name=${encodeURIComponent(transfer.playerName)}&background=e879f9&color=fff&size=64&bold=true`} 
