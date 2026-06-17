@@ -52,9 +52,15 @@
         };
 
         let db = null;
-        if (firebaseConfig.apiKey !== "AIzaSyDws-R-axRQwA_DUwqz3iDFBzN1iKla-Zg") {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
+        if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "AIzaSyDws-R-axRQwA_DUwqz3iDFBzN1iKla-Zg" && firebaseConfig.apiKey.length > 5) {
+            try {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                db = firebase.firestore();
+            } catch (error) {
+                console.error("Firebase bağlantı hatası:", error);
+            }
         }
 
         // --- Icons ---
