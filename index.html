@@ -5,12 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Women's Football Transfer Tracker</title>
     
-    <link rel="icon" type="image/png" href="transfer (1).png">
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2219665419227145"
-     crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="transfer.png">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -25,7 +21,6 @@
         }
     </script>
 
-    <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
@@ -66,8 +61,8 @@
         const ALL_TEAMS = ["Aston Villa", "Chelsea", "Arsenal", "Manchester City", "Manchester United", "Birmingham City", "Brighton & Hove Albion", "Charlton Athletic", "Crystal Palace", "Everton", "Liverpool", "Valadares Gaia", "London City Lionesses", "Tottenham Hotspur", "Portland Thorns", "Gotham FC", "West Ham United", "Angel City", "Dijon", "Fleury", "Le Havre", "OL Lyonnes", "Marseille", "Montpellier", "Nantes", "Paris FC", "Paris Saint-Germain", "Saint-Malo", "Strasbourg", "Toulouse", "Union Berlin", "Werder Bremen", "Eintracht Frankfurt", "SC Freiburg", "Juárez", "Hamburger SV", "TSG Hoffenheim", "1. FC Köln", "RB Leipzig", "Bayer Leverkusen", "Mainz 05", "Bayern Munich", "1. FC Nürnberg", "VfB Stuttgart", "VfL Wolfsburg", "Borussia Dortmund", "Bay FC", "Boston Legacy", "Chicago Stars", "Denver Summit", "Houston Dash", "Kansas City Current", "North Carolina Courage", "Orlando Pride", "Racing Louisville", "San Diego Wave", "Seattle Reign", "Utah Royals", "Washington Spirit", "Como", "Fiorentina", "Inter Milan", "Juventus", "Lazio", "AC Milan", "Napoli", "Parma", "AS Roma", "Sassuolo", "Ternana", "Genoa", "Corinthians", "SL Benfica", "Häcken", "Palmeiras", "Ajax", "Alavés", "Athletic Club", "Atlético Madrid", "Barcelona", "Deportivo Abanca", "Deportivo de La Coruna", "DUX Logroño", "Eibar", "Espanyol", "Granada", "Badalona", "Madrid CF", "Real Madrid", "Real Sociedad", "Sevilla", "Tenerife", "Valencia", "Levante", "Celtic", "Brann", "Dinamo-BGU", "Mamelodi Sundowns", "Slavia Praha", "Boca Juniors", "América", "Glasgow City", "Rangers", "Hammarby", "Tigres UANL", "Internacional RS", "Minsk", "Twente", "Santos", "St. Pölten", "Monterrey", "Rosengård", "Vålerenga", "Servette Chênois", "Braga", "Galatasaray", "Fomget", "Fenerbahçe", "Al Hilal", "Breidablik", "Malmö", "Sporting CP", "Zürich", "Linköping", "Kristianstad", "Nordsjælland", "Valur"];
         
         const mockTransfers = [
-          { id: 1, playerName: "Regina van Eijk", playerPhotoUrl: "https://github.com/user-attachments/assets/f38e870d-ae2d-4f9c-944f-2fdfa2faaefb", nationality: "Netherlands", position: "GK", fromClub: "Ajax", toClub: "Bayern Munich", league: "Frauen-Bundesliga", date: "2026-06-11", fee: "-" },
-          { id: 2, playerName: "Sarah Mattner", playerPhotoUrl: "https://github.com/user-attachments/assets/328d2c09-44af-4e90-a0a8-a9d90b955512", nationality: "Germany", position: "RW", fromClub: "St. Pölten", toClub: "Bayern Munich", league: "Frauen-Bundesliga", date: "2026-06-16", fee: "-" },
+          { id: 1, playerName: "Regina van Eijk", playerPhotoUrl: "https://github.com/user-attachments/assets/f38e870d-ae2d-4f9c-944f-2fdfa2faaefb", topPhotoUrl: "https://github.com/.../dikey-resim.png", nationality: "Netherlands", position: "GK", fromClub: "Ajax", toClub: "Bayern Munich", league: "Frauen-Bundesliga", date: "2026-06-11", fee: "-},
+          { id: 2, playerName: "Sarah Mattner", playerPhotoUrl: "https://github.com/user-attachments/assets/328d2c09-44af-4e90-a0a8-a9d90b955512", topPhotoUrl: "https://github.com/.../dikey-resim.png", nationality: "Germany", position: "RW", fromClub: "St. Pölten", toClub: "Bayern Munich", league: "Frauen-Bundesliga", date: "2026-06-16", fee: "-" },
           { id: 3, playerName: "Caroline Weir", playerPhotoUrl: "https://github.com/user-attachments/assets/6cb08e27-3d75-462d-918e-21395f163f9a", nationality: "Scotland", position: "CM", fromClub: "Real Madrid", toClub: "OL Lyonnes", league: "Arkema Première Ligue", date: "2026-06-16", fee: "Free Transfer" },
           { id: 4, playerName: "Andreia Jacinto", playerPhotoUrl: "https://github.com/user-attachments/assets/68169ccd-c6ef-460a-9e8f-2cca77f10545", nationality: "Portugal", position: "CM", fromClub: "Real Sociedad", toClub: "Real Madrid", league: "Liga F", date: "2026-06-14", fee: "-" },
           { id: 5, playerName: "Beth Mead", playerPhotoUrl: "https://github.com/user-attachments/assets/f1e2c361-ddc8-4e9a-a034-b43d7d6fa237", nationality: "England", position: "RW", fromClub: "Arsenal", toClub: "Manchester City", league: "WSL", date: "2026-06-12", fee: "Free Transfer" },
@@ -126,6 +121,7 @@
           { id: 58, playerName: "Sophie Proost", playerPhotoUrl: "", nationality: "Netherlands", position: "LM", fromClub: "Twente", toClub: "Bayern Munich", league: "Frauen-Bundesliga", date: "2026-07-08", fee: "Free Transfer" },   
           { id: 59, playerName: "Alexia Putellas", playerPhotoUrl: "", nationality: "Spain", position: "CM", fromClub: "Barcelona", toClub: "London City Lionesses", league: "WSL", date: "2026-07-08", fee: "Free Transfer" },           
         ];
+
 
         // Yerel (Offline) Avatar Üretici
         const generateAvatar = (name, size = 64) => {
@@ -266,6 +262,13 @@
             }, 600); // Base64 resmin sayfaya çizilmesi için güvenli süre
           };
 
+          // "Top Transfers" listesini belirli ID'ler üzerinden veya ilk 8 oyuncu arasından seçelim
+          const topTransfers = useMemo(() => {
+            const topTransferIds = [5, 3, 9, 8, 4, 1, 2];
+            const selected = mockTransfers.filter(t => topTransferIds.includes(t.id));
+            return selected.length > 0 ? selected : mockTransfers.slice(0, 8);
+          }, []);
+
           const filteredAndSortedTransfers = useMemo(() => {
             let result = mockTransfers;
 
@@ -377,6 +380,40 @@
 
                 {/* PAGE CONTENT */}
                 <main className="max-w-6xl mx-auto px-4 py-8">
+                  
+                  {/* TOP TRANSFERS BÖLÜMÜ */}
+                  <div className="mb-10">
+                    <div className="flex items-center justify-between mb-5 px-1">
+                      <h2 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight flex items-center gap-3">
+                        <span className="w-1.5 h-7 bg-fuchsia-600 rounded-full"></span>
+                        TOP TRANSFERS
+                      </h2>
+                    </div>
+                    
+                    <div className="flex overflow-x-auto gap-5 pb-4 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] px-1">
+                      {topTransfers.map((transfer) => (
+                        <div key={`top-${transfer.id}`} className="snap-start shrink-0 w-[240px] bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                          <div className="h-[280px] relative bg-slate-100 dark:bg-slate-700 overflow-hidden">
+                            <img 
+                              src={transfer.topPhotoUrl ? getSafeImageUrl(transfer.topPhotoUrl) : (transfer.playerPhotoUrl ? getSafeImageUrl(transfer.playerPhotoUrl) : generateAvatar(transfer.playerName, 250))}
+                              alt={transfer.playerName}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              onError={(e) => { e.target.onerror = null; e.target.src = generateAvatar(transfer.playerName, 250); }}
+                            />
+                            {/* Sadece fotoğrafın alt kısmını çerçevelemek için çok hafif bir gölge */}
+                            <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-black/20 to-transparent"></div>
+                          </div>
+                          
+                          <div className="p-5 flex flex-col gap-1.5">
+                            <h3 className="font-extrabold text-xl text-slate-800 dark:text-slate-100 leading-tight truncate">{transfer.playerName}</h3>
+                            <p className="text-[15px] font-semibold text-fuchsia-600 dark:text-fuchsia-400 truncate">{transfer.toClub}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* FILTER VE SORT BÖLÜMÜ */}
                   <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden transition-colors duration-300">
                     <button 
                       onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -455,6 +492,7 @@
                       )}
                   </div>
 
+                  {/* MAIN TRANSFER LIST */}
                   <div className="space-y-4">
                     {filteredAndSortedTransfers.length === 0 ? (
                       <div className="text-center py-12 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors duration-300">
@@ -539,7 +577,7 @@
                                 {transfer.league}
                               </div>
                               
-                              {/* YENİ: Manuel Twitter Paylaşım Butonu (Güncel X Logosuyla) */}
+                              {/* Manuel Twitter Paylaşım Butonu */}
                               <button 
                                 onClick={() => handleShareTwitter(transfer)}
                                 disabled={generatingId === transfer.id}
@@ -555,25 +593,22 @@
                             </div>
                             
                             <div className="flex flex-col items-end gap-1">
-                            <span className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                              <Calendar className="w-4 h-4" />
-                              {formatDate(transfer.date)}
-                            </span>
-                            <span className="text-xs font-medium text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded transition-colors duration-300">
-                              {transfer.fee}
-                            </span>
+                              <span className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                                <Calendar className="w-4 h-4" />
+                                {formatDate(transfer.date)}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </main>
+                      ))
+                    )}
+                  </div>
+                </main>
 
+              </div>
             </div>
-          </div>
-        );
-      }
+          );
+        }
 
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(<App />);
