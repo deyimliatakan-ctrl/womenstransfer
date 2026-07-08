@@ -119,7 +119,7 @@
           { id: 56, playerName: "Géraldine Reuteler", playerPhotoUrl: "", nationality: "Switzerland", position: "CM", fromClub: "Eintracht Frankfurt", toClub: "Arsenal", league: "WSL", date: "2026-07-08", fee: "Free Transfer" },   
           { id: 57, playerName: "Nina Nijstad", playerPhotoUrl: "", nationality: "Netherlands", position: "CM", fromClub: "PSV Eindhoven", toClub: "Portland Thorns", league: "NWSL", date: "2026-07-07", fee: "Free Transfer" },   
           { id: 58, playerName: "Sophie Proost", playerPhotoUrl: "", nationality: "Netherlands", position: "LM", fromClub: "Twente", toClub: "Bayern Munich", league: "Frauen-Bundesliga", date: "2026-07-08", fee: "Free Transfer" },   
-          { id: 59, playerName: "Alexia Putellas", playerPhotoUrl: "", nationality: "Spain", position: "CM", fromClub: "Barcelona", toClub: "London City Lionesses", league: "WSL", date: "2026-07-08", fee: "Free Transfer" },           
+          { id: 59, playerName: "Alexia Putellas", playerPhotoUrl: "https://github.com/user-attachments/assets/93751859-2286-421b-8023-4989ce3a8037", topPhotoUrl: "https://github.com/user-attachments/assets/7eab7bf9-640a-4584-af67-575ce38d5807", nationality: "Spain", position: "CM", fromClub: "Barcelona", toClub: "London City Lionesses", league: "WSL", date: "2026-07-08", fee: "Free Transfer" },           
         ];
 
 
@@ -264,7 +264,7 @@
 
           // "Top Transfers" listesini belirli ID'ler üzerinden veya ilk 8 oyuncu arasından seçelim
           const topTransfers = useMemo(() => {
-            const topTransferIds = [5, 3, 9, 8, 4, 1, 2];
+            const topTransferIds = [59];
             const selected = mockTransfers.filter(t => topTransferIds.includes(t.id));
             return selected.length > 0 ? selected : mockTransfers.slice(0, 8);
           }, []);
