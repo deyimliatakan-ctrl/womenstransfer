@@ -164,16 +164,6 @@
 
         function App() {
           const [transfers, setTransfers] = useState(mockTransfers);
-          // Oylanan transferleri takip etmek için state (Local Storage mantığı)
-          const [votedIds, setVotedIds] = useState(() => {
-            try {
-              const stored = localStorage.getItem('votedTransfers');
-              return stored ? JSON.parse(stored) : [];
-            } catch (error) {
-              return [];
-            }
-          });
-
           const [isFilterOpen, setIsFilterOpen] = useState(false);
           const [isDarkMode, setIsDarkMode] = useState(false);
           
@@ -184,15 +174,6 @@
           const [nationalityFilter, setNationalityFilter] = useState('');
           const [teamFilter, setTeamFilter] = useState(''); 
           const [sortOrder, setSortOrder] = useState('newest'); 
-
-          // Local Storage'ı güncel tutma
-          useEffect(() => {
-            try {
-              localStorage.setItem('votedTransfers', JSON.stringify(votedIds));
-            } catch (error) {
-              console.error("Local storage error:", error);
-            }
-          }, [votedIds]);
 
           const uniqueLeagues = useMemo(() => [...new Set([...ALL_LEAGUES, ...transfers.map(t => t.league)])].sort(), [transfers]);
           const uniqueNationalities = useMemo(() => [...new Set([...ALL_NATIONALITIES, ...transfers.map(t => t.nationality)])].sort(), [transfers]);
@@ -207,27 +188,6 @@
           const handleQuickFilter = (type, value) => {
             handleFilterChange(type, value);
             window.scrollTo({ top: 0, behavior: 'smooth' });
-          };
-
-          // 1 KEZ OY VERME VE GERİ ALMA SİSTEMİ
-          const handleUpvote = (id) => {
-            if (votedIds.includes(id)) {
-              // Zaten oy vermişse: Oyu geri al
-              setTransfers(prevTransfers => 
-                prevTransfers.map(t => 
-                  t.id === id ? { ...t, upvotes: (t.upvotes || 0) - 1 } : t
-                )
-              );
-              setVotedIds(prev => prev.filter(votedId => votedId !== id));
-            } else {
-              // İlk kez oy veriyorsa: Oy ver
-              setTransfers(prevTransfers => 
-                prevTransfers.map(t => 
-                  t.id === id ? { ...t, upvotes: (t.upvotes || 0) + 1 } : t
-                )
-              );
-              setVotedIds(prev => [...prev, id]);
-            }
           };
 
           const handleShareTwitter = async (transfer) => {
@@ -284,11 +244,11 @@
             }, 600);
           };
 
-          // Top Transfers sıralaması (Oy sayısına göre azalan)
+          // "Top Transfers" listesini manuel ID'lere göre filtrele
           const topTransfers = useMemo(() => {
-            return transfers
-              .filter(t => t.isTopTransfer)
-              .sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
+            // Öne çıkarmak istediğiniz oyuncu ID'lerini buraya ekleyebilirsiniz (Sınırsızdır)
+            const topTransferIds = [59, 51, 40, 25, 9, 5, 3]; 
+            return transfers.filter(t => topTransferIds.includes(t.id));
           }, [transfers]);
 
           const filteredAndSortedTransfers = useMemo(() => {
@@ -374,25 +334,8 @@
                       
                       <div className="flex overflow-x-auto gap-5 pb-4 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] px-1">
                         {topTransfers.map((transfer) => {
-                          const hasVoted = votedIds.includes(transfer.id);
-                          
                           return (
                             <div key={`top-${transfer.id}`} className="relative snap-start shrink-0 w-[240px] bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
-                              
-                              {/* 🌟 ŞIK OYLAMA BUTONU (Artık oy geri alınabiliyor) */}
-                              <button 
-                                onClick={(e) => { e.preventDefault(); handleUpvote(transfer.id); }}
-                                className={`absolute top-3 left-3 z-20 flex items-center gap-1.5 backdrop-blur-md text-white text-sm font-extrabold px-3 py-1.5 rounded-full border shadow-lg transition-all duration-300 ${
-                                  hasVoted 
-                                    ? 'bg-fuchsia-600 border-fuchsia-400 opacity-90 scale-105 hover:bg-fuchsia-700 cursor-pointer' 
-                                    : 'bg-black/40 border-white/20 hover:bg-fuchsia-500 hover:scale-110 cursor-pointer hover:shadow-fuchsia-500/50'
-                                }`}
-                                title={hasVoted ? "Remove your vote" : "Upvote this transfer"}
-                              >
-                                <ChevronUp className={`w-4 h-4 ${hasVoted ? 'text-fuchsia-200' : ''}`} />
-                                <span>{transfer.upvotes || 0}</span>
-                              </button>
-
                               <div className="h-[280px] relative bg-slate-100 dark:bg-slate-700 overflow-hidden">
                                 <img 
                                   src={transfer.topPhotoUrl ? getSafeImageUrl(transfer.topPhotoUrl) : (transfer.playerPhotoUrl ? getSafeImageUrl(transfer.playerPhotoUrl) : generateAvatar(transfer.playerName, 250))}
@@ -413,6 +356,14 @@
                       </div>
                     </div>
                   )}
+
+                  {/* LATEST TRANSFERS BAŞLIĞI */}
+                  <div className="flex items-center justify-between mb-5 px-1 mt-4">
+                    <h2 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight flex items-center gap-3">
+                      <span className="w-1.5 h-7 bg-indigo-600 rounded-full shadow-[0_0_10px_rgba(79,70,229,0.8)]"></span>
+                      LATEST TRANSFERS
+                    </h2>
+                  </div>
 
                   {/* FILTER VE SORT BÖLÜMÜ */}
                   <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden transition-colors duration-300">
