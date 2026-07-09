@@ -111,7 +111,7 @@
           { id: 48, playerName: "Danique Noordman", playerPhotoUrl: "", nationality: "Netherlands", position: "CM", fromClub: "Ajax", toClub: "Juventas", league: "Serie A Femminile", date: "2026-07-04", fee: "Free Transfer" },   
           { id: 49, playerName: "Rocío Gálvez", playerPhotoUrl: "", nationality: "Spain", position: "CB", fromClub: "Real Madrid", toClub: "Juárez", league: "Liga MX Femenil", date: "2026-07-05", fee: "Free Transfer" },   
           { id: 50, playerName: "Johanna Kaneryd", playerPhotoUrl: "", nationality: "Sweden", position: "RM", fromClub: "Chelsea", toClub: "OL Lyonnes", league: "Arkema Première Ligue", date: "2026-07-06", fee: "Free Transfer" },   
-          { id: 51, playerName: "Selina Cerci", playerPhotoUrl: "", nationality: "Germany", position: "ST", fromClub: "Hoffenheim", toClub: "Arsenal", league: "WSL", date: "2026-07-06", fee: "Free Transfer" },   
+          { id: 51, playerName: "Selina Cerci", playerPhotoUrl: "https://github.com/user-attachments/assets/0ad428a0-d7b2-49ef-a385-98e7561327dc", topPhotoUrl: "https://github.com/user-attachments/assets/2f89a4ad-9656-493a-9196-fce3af09b075", nationality: "Germany", position: "ST", fromClub: "Hoffenheim", toClub: "Arsenal", league: "WSL", date: "2026-07-06", fee: "Free Transfer" },   
           { id: 52, playerName: "Hanna Bennison", playerPhotoUrl: "", nationality: "Sweden", position: "CM", fromClub: "Real Madrid", toClub: "Eintracht Frankfurt", league: "Frauen-Bundesliga", date: "2026-07-06", fee: "Free Transfer" },   
           { id: 53, playerName: "Naomie Feller", playerPhotoUrl: "", nationality: "France", position: "RM", fromClub: "Real Madrid", toClub: "Paris Saint-Germain", league: "Arkema Première Ligue", date: "2026-07-06", fee: "Free Transfer" },   
           { id: 54, playerName: "Annamaria Serturini", playerPhotoUrl: "", nationality: "Italy", position: "RM", fromClub: "Inter Milan", toClub: "Juventus", league: "Serie A Femminile", date: "2026-07-06", fee: "Free Transfer" },   
@@ -264,7 +264,7 @@
 
           // "Top Transfers" listesini belirli ID'ler üzerinden veya ilk 8 oyuncu arasından seçelim
           const topTransfers = useMemo(() => {
-            const topTransferIds = [59, 5, 40, 25];
+            const topTransferIds = [59, 51, 5, 40, 25];
             const selected = mockTransfers.filter(t => topTransferIds.includes(t.id));
             return selected.length > 0 ? selected : mockTransfers.slice(0, 8);
           }, []);
