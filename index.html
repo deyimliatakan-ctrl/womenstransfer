@@ -121,7 +121,8 @@
           { id: 57, playerName: "Nina Nijstad", playerPhotoUrl: "", nationality: "Netherlands", position: "CM", fromClub: "PSV Eindhoven", toClub: "Portland Thorns", league: "NWSL", date: "2026-07-07", fee: "Free Transfer" },   
           { id: 58, playerName: "Sophie Proost", playerPhotoUrl: "", nationality: "Netherlands", position: "LM", fromClub: "Twente", toClub: "Bayern Munich", league: "Frauen-Bundesliga", date: "2026-07-08", fee: "Free Transfer" },   
           { id: 59, playerName: "Alexia Putellas", playerPhotoUrl: "https://github.com/user-attachments/assets/93751859-2286-421b-8023-4989ce3a8037", topPhotoUrl: "https://github.com/user-attachments/assets/7eab7bf9-640a-4584-af67-575ce38d5807", nationality: "Spain", position: "CM", fromClub: "Barcelona", toClub: "London City Lionesses", league: "WSL", date: "2026-07-08", fee: "Free Transfer", isTopTransfer: true, upvotes: 1240 },           
-        ];
+          { id: 60, playerName: "Ona Batlle", playerPhotoUrl: "https://github.com/user-attachments/assets/b70579f3-1c0d-48f9-9ddd-de926b82e01b", topPhotoUrl: "https://github.com/user-attachments/assets/b8762c1d-491d-4dd7-b2db-57b1cf2fdc86", nationality: "Spain", position: "RB", fromClub: "Barcelona", toClub: "Arsenal", league: "WSL", date: "2026-07-10", fee: "Free Transfer", isTopTransfer: true, upvotes: 1240 },           
+      ];
 
         // Yerel (Offline) Avatar Üretici
         const generateAvatar = (name, size = 64) => {
@@ -247,7 +248,7 @@
           // "Top Transfers" listesini manuel ID'lere göre filtrele
           const topTransfers = useMemo(() => {
             // Öne çıkarmak istediğiniz oyuncu ID'lerini buraya ekleyebilirsiniz (Sınırsızdır)
-            const topTransferIds = [59, 51, 40, 25, 5]; 
+            const topTransferIds = [40, 5, 25, 60, 51, 59]; 
             return transfers.filter(t => topTransferIds.includes(t.id));
           }, [transfers]);
 
