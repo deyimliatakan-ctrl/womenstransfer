@@ -247,8 +247,7 @@
             }, 600);
           };
 
-          // "Top Transfers" listesini manuel ID'lere göre filtrele
-          const topTransfers = useMemo(() => {
+
             // Öne çıkarmak istediğiniz oyuncu ID'lerini buraya ekleyebilirsiniz (Sınırsızdır)
             const topTransferIds = [56, 40, 5, 25, 60, 51, 59]; 
             return transfers.filter(t => topTransferIds.includes(t.id));
