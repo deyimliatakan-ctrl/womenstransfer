@@ -117,7 +117,7 @@
           { id: 53, playerName: "Naomie Feller", playerPhotoUrl: "", nationality: "France", position: "RM", fromClub: "Real Madrid", toClub: "Paris Saint-Germain", league: "Arkema Première Ligue", date: "2026-07-06", fee: "Free Transfer" },   
           { id: 54, playerName: "Annamaria Serturini", playerPhotoUrl: "", nationality: "Italy", position: "RM", fromClub: "Inter Milan", toClub: "Juventus", league: "Serie A Femminile", date: "2026-07-06", fee: "Free Transfer" },   
           { id: 55, playerName: "Viola Calligaris", playerPhotoUrl: "", nationality: "Switzerland", position: "CB", fromClub: "Juventus", toClub: "Atletico Madrid", league: "Liga F", date: "2026-07-07", fee: "Free Transfer" },  
-          { id: 56, playerName: "Géraldine Reuteler", playerPhotoUrl: "", nationality: "Switzerland", position: "CM", fromClub: "Eintracht Frankfurt", toClub: "Arsenal", league: "WSL", date: "2026-07-08", fee: "Free Transfer" },   
+          { id: 56, playerName: "Géraldine Reuteler", playerPhotoUrl: "https://github.com/user-attachments/assets/fa3e3f7b-f340-44a1-bf2e-ba1558601a9f", topPhotoUrl: "https://github.com/user-attachments/assets/ca463a7a-ef01-431e-bc94-7fb73ed6cf07", nationality: "Switzerland", position: "CM", fromClub: "Eintracht Frankfurt", toClub: "Arsenal", league: "WSL", date: "2026-07-08", fee: "Free Transfer" },   
           { id: 57, playerName: "Nina Nijstad", playerPhotoUrl: "", nationality: "Netherlands", position: "CM", fromClub: "PSV Eindhoven", toClub: "Portland Thorns", league: "NWSL", date: "2026-07-07", fee: "Free Transfer" },   
           { id: 58, playerName: "Sophie Proost", playerPhotoUrl: "", nationality: "Netherlands", position: "LM", fromClub: "Twente", toClub: "Bayern Munich", league: "Frauen-Bundesliga", date: "2026-07-08", fee: "Free Transfer" },   
           { id: 59, playerName: "Alexia Putellas", playerPhotoUrl: "https://github.com/user-attachments/assets/93751859-2286-421b-8023-4989ce3a8037", topPhotoUrl: "https://github.com/user-attachments/assets/7eab7bf9-640a-4584-af67-575ce38d5807", nationality: "Spain", position: "CM", fromClub: "Barcelona", toClub: "London City Lionesses", league: "WSL", date: "2026-07-08", fee: "Free Transfer", isTopTransfer: true, upvotes: 1240 },           
@@ -248,7 +248,7 @@
           // "Top Transfers" listesini manuel ID'lere göre filtrele
           const topTransfers = useMemo(() => {
             // Öne çıkarmak istediğiniz oyuncu ID'lerini buraya ekleyebilirsiniz (Sınırsızdır)
-            const topTransferIds = [40, 5, 25, 60, 51, 59]; 
+            const topTransferIds = [56, 40, 5, 25, 60, 51, 59]; 
             return transfers.filter(t => topTransferIds.includes(t.id));
           }, [transfers]);
 
