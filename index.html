@@ -49,10 +49,7 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- Stabil Babel Sürümü -->
     <script src="https://unpkg.com/@babel/standalone@7.23.6/babel.min.js"></script>
-    
-    <!-- html2canvas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body class="bg-slate-50 dark:bg-[#0B0F19] text-slate-800 dark:text-slate-200 transition-colors duration-300 antialiased selection:bg-brand-500 selection:text-white">
@@ -148,7 +145,8 @@
           { id: 62, playerName: "Niamh Charles", playerPhotoUrl: "", nationality: "England", position: "LB", fromClub: "Chelsea", toClub: "Manchester City", league: "WSL", date: "2026-07-10", fee: "Free Transfer" },   
         ];
 
-        const generateAvatar = (name, size = 64) => {
+        // Yedek avatar oluşturma - Çözünürlük ve keskinlik artırıldı
+        const generateAvatar = (name, size = 800) => {
           try {
             const canvas = document.createElement('canvas');
             canvas.width = size;
@@ -176,12 +174,6 @@
           } catch (e) {
             return '';
           }
-        };
-
-        const getSafeImageUrl = (url) => {
-          if (!url) return '';
-          if (url.startsWith('data:') || url.includes('wsrv.nl')) return url;
-          return `https://wsrv.nl/?url=${encodeURIComponent(url)}&output=webp`;
         };
 
         const blobToBase64 = (blob) => {
@@ -240,7 +232,8 @@
             let safeBase64Url = '';
             if (transfer.playerPhotoUrl) {
               try {
-                const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(transfer.playerPhotoUrl)}&output=png&w=400&h=400&fit=cover`;
+                // Export için kalitesi ve çözünürlüğü artırılmış proxy kullanımı (q=100, w=800, h=800)
+                const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(transfer.playerPhotoUrl)}&output=png&w=800&h=800&fit=cover&q=100`;
                 const res = await fetch(proxyUrl);
                 if (res.ok) {
                     const blob = await res.blob();
@@ -250,10 +243,10 @@
                 }
               } catch (error) {
                 console.error("Görsel yüklenemedi, yedek oluşturuluyor:", error);
-                safeBase64Url = generateAvatar(transfer.playerName, 300);
+                safeBase64Url = generateAvatar(transfer.playerName, 800);
               }
             } else {
-              safeBase64Url = generateAvatar(transfer.playerName, 300);
+              safeBase64Url = generateAvatar(transfer.playerName, 800);
             }
 
             setExportTransfer({ ...transfer, base64Photo: safeBase64Url });
@@ -264,7 +257,7 @@
                 if (cardElement && window.html2canvas) {
                   const canvas = await window.html2canvas(cardElement, {
                     useCORS: true,
-                    scale: 1, 
+                    scale: 2, // Retina kalitesinde export için scale artırıldı
                     backgroundColor: '#0B0F19' // Match dark mode body background
                   });
                   const dataUrl = canvas.toDataURL("image/png");
@@ -359,7 +352,6 @@
                   </div>
                 )}
 
-                {}
                 {/* Modern Navbar */}
                 <header className="relative w-full border-b border-slate-200 dark:border-white/5 bg-white/80 dark:bg-[#0B0F19]/80 backdrop-blur-xl sticky top-0 z-40">
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -386,7 +378,6 @@
 
                 <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16">
                   
-                  {}
                   {/* Hero Banner */}
                   <div className="text-center max-w-3xl mx-auto space-y-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100 dark:bg-brand-500/10 text-brand-700 dark:text-brand-400 text-sm font-semibold border border-brand-200 dark:border-brand-500/20">
@@ -401,7 +392,6 @@
                     </p>
                   </div>
 
-                  {}
                   {/* Top Transfers Premium Scroll */}
                   {topTransfers.length > 0 && (
                     <div className="relative">
@@ -417,11 +407,12 @@
                           return (
                             <div key={`top-${transfer.id}`} className="snap-start shrink-0 w-[280px] h-[380px] rounded-[2rem] overflow-hidden relative group cursor-pointer border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-xl dark:shadow-none hover:-translate-y-2 transition-all duration-500 bg-white dark:bg-slate-900 isolate">
                               
+                              {/* Düzeltme: Orijinal GitHub bağlantısını doğrudan kullanarak maksimum görüntü kalitesi sağlanıyor */}
                               <img 
-                                src={transfer.topPhotoUrl ? getSafeImageUrl(transfer.topPhotoUrl) : (transfer.playerPhotoUrl ? getSafeImageUrl(transfer.playerPhotoUrl) : generateAvatar(transfer.playerName, 400))}
+                                src={transfer.topPhotoUrl ? transfer.topPhotoUrl : (transfer.playerPhotoUrl ? transfer.playerPhotoUrl : generateAvatar(transfer.playerName, 800))}
                                 alt={transfer.playerName}
                                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                onError={(e) => { e.target.onerror = null; e.target.src = generateAvatar(transfer.playerName, 400); }}
+                                onError={(e) => { e.target.onerror = null; e.target.src = generateAvatar(transfer.playerName, 800); }}
                               />
                               
                               <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-[#0B0F19]/40 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-300"></div>
@@ -441,7 +432,6 @@
 
                   <hr className="border-slate-200 dark:border-white/5" />
 
-                  {}
                   {/* Filter & Latest Transfers Header */}
                   <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-4">
                     <div>
@@ -519,7 +509,6 @@
                       </div>
                   </div>
 
-                  {}
                   {/* Main Transfer Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredAndSortedTransfers.length === 0 ? (
@@ -541,11 +530,12 @@
                           <div className="p-5 flex items-start gap-4">
                             <div className="relative shrink-0">
                                 <div className="absolute inset-0 bg-brand-500 rounded-full blur opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
+                                {/* Düzeltme: Proxy aracılığı devre dışı bırakıldı, doğrudan orjinal kalitede bağlanıyor. Avatar yedeği 200px yapıldı. */}
                                 <img 
-                                    src={transfer.playerPhotoUrl ? getSafeImageUrl(transfer.playerPhotoUrl) : generateAvatar(transfer.playerName, 100)} 
+                                    src={transfer.playerPhotoUrl ? transfer.playerPhotoUrl : generateAvatar(transfer.playerName, 200)} 
                                     alt={transfer.playerName} 
                                     className="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-slate-800 relative z-10" 
-                                    onError={(e) => { e.target.onerror = null; e.target.src = generateAvatar(transfer.playerName, 100); }} 
+                                    onError={(e) => { e.target.onerror = null; e.target.src = generateAvatar(transfer.playerName, 200); }} 
                                 />
                             </div>
 
@@ -633,7 +623,6 @@
 
                 </main>
                 
-                {}
                 {/* Footer */}
                 <footer className="w-full border-t border-slate-200 dark:border-white/5 bg-white dark:bg-[#0B0F19] py-8 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
                    <p>© {new Date().getFullYear()} W-Transfer Tracker. All rights reserved.</p>
