@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Womens Football Transfer Tracker</title>
+    <title>Women's Football Transfer Tracker</title>
     
     <link rel="icon" type="image/png" href="transfer.png">
+    
+    <!-- Google Fonts for Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -14,17 +19,27 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Lexend', 'sans-serif'],
                     },
                     colors: {
                         brand: {
                             50: '#fdf4ff',
                             100: '#fae8ff',
+                            200: '#f5d0fe',
+                            300: '#f0abfc',
+                            400: '#e879f9',
                             500: '#d946ef',
                             600: '#c026d3',
                             700: '#a21caf',
+                            800: '#86198f',
                             900: '#701a75',
+                            950: '#4a044e',
                         }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(217, 70, 239, 0.4)',
+                        'glow-lg': '0 0 30px rgba(217, 70, 239, 0.6)',
                     }
                 }
             }
@@ -40,7 +55,7 @@
     <!-- html2canvas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 transition-colors duration-300 antialiased">
+<body class="bg-slate-50 dark:bg-[#0B0F19] text-slate-800 dark:text-slate-200 transition-colors duration-300 antialiased selection:bg-brand-500 selection:text-white">
     
     <div id="root"></div>
 
@@ -50,6 +65,7 @@
         const Search = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>;
         const Calendar = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>;
         const ArrowRight = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
+        const ArrowRightLeft = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>;
         const Filter = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>;
         const ChevronDown = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m6 9 6 6 6-6"/></svg>;
         const ChevronUp = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m18 15-6-6-6 6"/></svg>;
@@ -123,7 +139,7 @@
           { id: 53, playerName: "Naomie Feller", playerPhotoUrl: "", nationality: "France", position: "RM", fromClub: "Real Madrid", toClub: "Paris Saint-Germain", league: "Arkema Première Ligue", date: "2026-07-06", fee: "Free Transfer" },   
           { id: 54, playerName: "Annamaria Serturini", playerPhotoUrl: "", nationality: "Italy", position: "RM", fromClub: "Inter Milan", toClub: "Juventus", league: "Serie A Femminile", date: "2026-07-06", fee: "Free Transfer" },   
           { id: 55, playerName: "Viola Calligaris", playerPhotoUrl: "", nationality: "Switzerland", position: "CB", fromClub: "Juventus", toClub: "Atletico Madrid", league: "Liga F", date: "2026-07-07", fee: "Free Transfer" },  
-          { id: 56, playerName: "Géraldine Reuteler", playerPhotoUrl: "", playerPhotoUrl: "https://github.com/user-attachments/assets/ca463a7a-ef01-431e-bc94-7fb73ed6cf07", nationality: "Switzerland", position: "CM", fromClub: "Eintracht Frankfurt", toClub: "Arsenal", league: "WSL", date: "2026-07-08", fee: "Free Transfer" },   
+          { id: 56, playerName: "Géraldine Reuteler", playerPhotoUrl: "https://github.com/user-attachments/assets/fa3e3f7b-f340-44a1-bf2e-ba1558601a9f", topPhotoUrl: "https://github.com/user-attachments/assets/ca463a7a-ef01-431e-bc94-7fb73ed6cf07", nationality: "Switzerland", position: "CM", fromClub: "Eintracht Frankfurt", toClub: "Arsenal", league: "WSL", date: "2026-07-08", fee: "Free Transfer" },   
           { id: 57, playerName: "Nina Nijstad", playerPhotoUrl: "", nationality: "Netherlands", position: "CM", fromClub: "PSV Eindhoven", toClub: "Portland Thorns", league: "NWSL", date: "2026-07-07", fee: "Free Transfer" },   
           { id: 58, playerName: "Sophie Proost", playerPhotoUrl: "", nationality: "Netherlands", position: "LM", fromClub: "Twente", toClub: "Bayern Munich", league: "Frauen-Bundesliga", date: "2026-07-08", fee: "Free Transfer" },   
           { id: 59, playerName: "Alexia Putellas", playerPhotoUrl: "https://github.com/user-attachments/assets/93751859-2286-421b-8023-4989ce3a8037", topPhotoUrl: "https://github.com/user-attachments/assets/7eab7bf9-640a-4584-af67-575ce38d5807", nationality: "Spain", position: "CM", fromClub: "Barcelona", toClub: "London City Lionesses", league: "WSL", date: "2026-07-08", fee: "Free Transfer" },                    
@@ -138,9 +154,15 @@
             canvas.width = size;
             canvas.height = size;
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#e879f9'; // fuchsia-400
+            
+            // Premium dark background for avatars
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#c026d3');
+            gradient.addColorStop(1, '#4c1d95');
+            ctx.fillStyle = gradient;
+            
             ctx.fillRect(0, 0, size, size);
-            ctx.font = `bold ${size * 0.4}px Inter, sans-serif`;
+            ctx.font = `bold ${size * 0.4}px Lexend, sans-serif`;
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -173,7 +195,7 @@
         function App() {
           const [transfers, setTransfers] = useState(mockTransfers);
           const [isFilterOpen, setIsFilterOpen] = useState(false);
-          const [isDarkMode, setIsDarkMode] = useState(false);
+          const [isDarkMode, setIsDarkMode] = useState(true); // Premium look default
           
           const [generatingId, setGeneratingId] = useState(null);
           const [exportTransfer, setExportTransfer] = useState(null);
@@ -184,7 +206,7 @@
           const [sortOrder, setSortOrder] = useState('newest'); 
 
           useEffect(() => {
-            if (isDarkMode) {
+            if(isDarkMode) {
                 document.body.classList.add('dark');
             } else {
                 document.body.classList.remove('dark');
@@ -243,7 +265,7 @@
                   const canvas = await window.html2canvas(cardElement, {
                     useCORS: true,
                     scale: 1, 
-                    backgroundColor: '#0f172a'
+                    backgroundColor: '#0B0F19' // Match dark mode body background
                   });
                   const dataUrl = canvas.toDataURL("image/png");
                   const link = document.createElement("a");
@@ -260,24 +282,25 @@
             }, 600);
           };
 
-          // "Top Transfers" listesini manuel ID'lere göre ve YAZILAN SIRAYA GÖRE filtrele
+          // Top Transfers - Exact specified order
           const topTransfers = useMemo(() => {
-            const topTransferIds = [56, 40, 5, 25, 60, 51, 59]; 
+            const topTransferIds = [59, 51, 5, 60, 25, 40, 56]; 
             return topTransferIds
                 .map(id => transfers.find(t => t.id === id))
                 .filter(t => t !== undefined); 
           }, [transfers]);
 
+          // Latest Transfers - Sort by Date, then ID
           const filteredAndSortedTransfers = useMemo(() => {
             let result = transfers;
             if (leagueFilter) result = result.filter(t => t.league === leagueFilter);
             if (nationalityFilter) result = result.filter(t => t.nationality === nationalityFilter);
             if (teamFilter) result = result.filter(t => t.toClub === teamFilter || t.fromClub === teamFilter);
+            
             result = [...result].sort((a, b) => {
               const dateA = new Date(a.date);
               const dateB = new Date(b.date);
               
-              // Tarihler aynıysa (getTime eşitse), ID'si büyük olanı (en son ekleneni) üste al
               if (dateA.getTime() === dateB.getTime()) {
                 return sortOrder === 'newest' ? b.id - a.id : a.id - b.id;
               }
@@ -288,56 +311,65 @@
           }, [transfers, leagueFilter, nationalityFilter, teamFilter, sortOrder]);
 
           const formatDate = (dateString) => {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options).toUpperCase();
           };
 
           return (
             <div className={isDarkMode ? 'dark' : ''}>
               <div className="min-h-screen bg-slate-50 dark:bg-[#0B0F19] font-sans transition-colors duration-500 relative overflow-x-hidden selection:bg-brand-500/30 selection:text-brand-900 dark:selection:text-brand-100">
                 
-                {/* =======================================================================
-                    GİZLİ TRANSFER KARTI (X PAYLAŞIMI İÇİN 1080x1080 HD KARE BOYUT)
-                ======================================================================== */}
+                {/* Export Card Node (Hidden) */}
                 {exportTransfer && (
                   <div className="fixed left-[-9999px] top-[0] z-[-1] pointer-events-none">
-                    <div id="export-card-node" className="w-[1080px] h-[1080px] flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white p-12 font-sans relative">
-                      <div className="absolute top-16 left-1/2 -translate-x-1/2 text-fuchsia-500 px-12 py-4 text-5xl font-extrabold tracking-[0.2em] uppercase z-10 whitespace-nowrap drop-shadow-md">
-                        Done Deal
+                    <div id="export-card-node" className="w-[1080px] h-[1080px] flex flex-col items-center justify-center bg-gradient-to-br from-[#0B0F19] via-[#1a0b2e] to-[#0B0F19] text-white p-12 font-sans relative overflow-hidden">
+                      
+                      {/* Premium Lights */}
+                      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-brand-600/30 rounded-full blur-[100px]"></div>
+                      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/30 rounded-full blur-[100px]"></div>
+
+                      <div className="absolute top-16 left-1/2 -translate-x-1/2 text-brand-400 px-12 py-4 text-4xl font-extrabold tracking-[0.3em] uppercase z-10 whitespace-nowrap font-display drop-shadow-md">
+                        TRANSFER UPDATE
                       </div>
-                      <img src={exportTransfer.base64Photo} alt={exportTransfer.playerName} className="w-80 h-80 rounded-full object-cover border-[10px] border-fuchsia-500 shadow-2xl mb-10 mt-20 relative z-10 bg-slate-800 shrink-0" />
-                      <h2 className="text-7xl font-extrabold mb-4 text-center leading-tight break-words max-w-[950px]">
+                      
+                      <img src={exportTransfer.base64Photo} alt={exportTransfer.playerName} className="w-[360px] h-[360px] rounded-full object-cover border-[6px] border-white/10 shadow-glow mb-12 mt-20 relative z-10 bg-slate-800 shrink-0" />
+                      
+                      <h2 className="text-8xl font-black mb-6 text-center leading-tight break-words max-w-[950px] font-display tracking-tight uppercase">
                         {exportTransfer.playerName}
                       </h2>
-                      <div className="flex items-center gap-4 text-4xl text-slate-300 mb-6">
+                      
+                      <div className="flex items-center gap-6 text-3xl text-slate-300 mb-10 tracking-widest font-semibold uppercase">
                         <span>{exportTransfer.nationality}</span>
-                        <span className="text-fuchsia-500">•</span>
-                        <span className="font-semibold text-white">{exportTransfer.position}</span>
+                        <span className="text-brand-500">•</span>
+                        <span className="text-white">{exportTransfer.position}</span>
                       </div>
-                      <div className="w-[300px] h-[2px] bg-fuchsia-500 mb-6 rounded-full shadow-[0_0_10px_rgba(217,70,239,0.5)]"></div>
-                      <div className="flex flex-col items-center justify-center w-full max-w-[950px]">
-                        <span className="text-4xl font-bold text-fuchsia-500 tracking-[0.3em] uppercase mb-2">Joined</span>
-                        <span className="text-7xl font-black text-white text-center leading-tight break-words max-w-[950px]">{exportTransfer.toClub}</span>
+                      
+                      <div className="flex items-center justify-center gap-8 w-full max-w-[950px] bg-white/5 backdrop-blur-sm p-8 rounded-3xl border border-white/10 relative z-10">
+                        <div className="flex-1 text-right text-4xl font-bold text-slate-400 truncate">{exportTransfer.fromClub}</div>
+                        <div className="shrink-0 bg-brand-500 p-4 rounded-full shadow-glow">
+                           <ArrowRight className="w-8 h-8 text-white" />
+                        </div>
+                        <div className="flex-1 text-left text-5xl font-black text-white truncate">{exportTransfer.toClub}</div>
                       </div>
-                      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-2xl text-slate-500/80 font-semibold w-full text-center tracking-widest uppercase">
-                        Womens Football Transfer Tracker
+
+                      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-xl text-slate-500 font-semibold w-full text-center tracking-[0.4em] uppercase">
+                        W-TRANSFER TRACKER
                       </div>
                     </div>
                   </div>
                 )}
-                {/* ======================================================================= */}
 
-                {/* Header (Modernized) */}
+                {/* Modern Navbar */}
                 <header className="relative w-full border-b border-slate-200 dark:border-white/5 bg-white/80 dark:bg-[#0B0F19]/80 backdrop-blur-xl sticky top-0 z-40">
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-20">
                       
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center shadow-lg shrink-0">
-                          <span className="text-white font-black text-xl font-sans tracking-tighter">W</span>
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-indigo-600 flex items-center justify-center shadow-glow">
+                          <Zap className="w-5 h-5 text-white" />
                         </div>
-                        <h1 className="text-lg sm:text-2xl font-bold tracking-tight text-slate-800 dark:text-white">
-                          Womens Football Transfer Tracker
+                        <h1 className="text-2xl font-black tracking-tight font-display bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-400 hidden sm:block uppercase">
+                          W-Transfer <span className="text-brand-600 dark:text-brand-400">Tracker</span>
                         </h1>
                       </div>
                       
@@ -353,30 +385,26 @@
 
                 <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16">
                   
-                  {/* Hero Banner Section */}
-                  <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-900 rounded-[2.5rem] p-8 sm:p-14 mb-12 text-white shadow-xl overflow-hidden isolate border border-slate-700/50">
-                    <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-fuchsia-600/30 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-                    <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-purple-600/30 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
-                    
-                    <div className="relative z-10 max-w-3xl">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-fuchsia-500/20 text-fuchsia-300 text-sm font-semibold border border-fuchsia-500/30 mb-6">
-                        <Zap className="w-4 h-4" /> Live Transfer Updates
-                      </div>
-                      <h2 className="text-4xl sm:text-6xl font-black tracking-tight mb-5 leading-tight">
-                        The Global Hub for <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-purple-400">Women's Football</span>
-                      </h2>
-                      <p className="text-slate-300 text-lg sm:text-xl font-medium max-w-2xl">
-                        Track the latest moves, filter by league or nation, and stay ahead of the game with our real-time database.
-                      </p>
+                  {/* Hero Banner */}
+                  <div className="text-center max-w-3xl mx-auto space-y-6">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100 dark:bg-brand-500/10 text-brand-700 dark:text-brand-400 text-sm font-semibold border border-brand-200 dark:border-brand-500/20">
+                      <Zap className="w-4 h-4" /> Live Transfer Updates
                     </div>
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-black font-display tracking-tight text-slate-900 dark:text-white leading-tight">
+                      The Global Hub for <br className="hidden sm:block" />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-indigo-500">Women's Football</span>
+                    </h2>
+                    <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">
+                      Track the latest moves, filter by league or nation, and stay ahead of the game.
+                    </p>
                   </div>
 
+                  {/* Top Transfers Premium Scroll */}
                   {topTransfers.length > 0 && (
-                    <div className="relative mb-16">
-                      <div className="flex items-center justify-between mb-8 px-1">
-                        <h2 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight flex items-center gap-3 uppercase">
-                          <span className="w-2 h-8 bg-fuchsia-500 rounded-full shadow-[0_0_15px_rgba(217,70,239,0.5)]"></span>
+                    <div className="relative">
+                      <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-2xl font-black font-display tracking-tight text-slate-900 dark:text-white flex items-center gap-3 uppercase">
+                          <span className="w-2 h-8 bg-brand-500 rounded-full shadow-glow"></span>
                           Top Transfers
                         </h2>
                       </div>
@@ -385,24 +413,29 @@
                       <div className="absolute left-0 top-16 bottom-0 w-8 bg-gradient-to-r from-slate-50 dark:from-[#0B0F19] to-transparent z-10 pointer-events-none"></div>
                       <div className="absolute right-0 top-16 bottom-0 w-8 bg-gradient-to-l from-slate-50 dark:from-[#0B0F19] to-transparent z-10 pointer-events-none"></div>
 
-                      <div className="flex overflow-x-auto gap-6 pb-8 pt-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] px-1">
+                      <div className="flex overflow-x-auto gap-6 pb-8 pt-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                         {topTransfers.map((transfer) => {
                           return (
-                            <div key={`top-${transfer.id}`} className="snap-start shrink-0 w-[260px] bg-white dark:bg-slate-800 rounded-[2rem] overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 group hover:-translate-y-2 hover:shadow-xl dark:hover:shadow-fuchsia-900/20 hover:border-fuchsia-200 dark:hover:border-fuchsia-500/30 flex flex-col">
+                            <div key={`top-${transfer.id}`} className="snap-start shrink-0 w-[280px] h-[380px] rounded-[2rem] overflow-hidden relative group cursor-pointer border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-xl dark:shadow-none hover:-translate-y-2 transition-all duration-500 bg-white dark:bg-slate-900 isolate">
                               
-                              <div className="h-[300px] relative bg-slate-100 dark:bg-slate-700 overflow-hidden">
-                                <img 
-                                  src={transfer.topPhotoUrl ? getSafeImageUrl(transfer.topPhotoUrl) : (transfer.playerPhotoUrl ? getSafeImageUrl(transfer.playerPhotoUrl) : generateAvatar(transfer.playerName, 250))}
-                                  alt={transfer.playerName}
-                                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                                  onError={(e) => { e.target.onerror = null; e.target.src = generateAvatar(transfer.playerName, 250); }}
-                                />
-                                {/* Modern shadow overlay solely for text readability */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
-                                
-                                <div className="absolute bottom-5 left-5 right-5 z-10">
-                                  <h3 className="font-black text-2xl text-white leading-tight truncate mb-1">{transfer.playerName}</h3>
-                                  <p className="text-[15px] font-bold text-fuchsia-400 truncate tracking-wide">{transfer.toClub}</p>
+                              <img 
+                                src={transfer.topPhotoUrl ? getSafeImageUrl(transfer.topPhotoUrl) : (transfer.playerPhotoUrl ? getSafeImageUrl(transfer.playerPhotoUrl) : generateAvatar(transfer.playerName, 400))}
+                                alt={transfer.playerName}
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                onError={(e) => { e.target.onerror = null; e.target.src = generateAvatar(transfer.playerName, 400); }}
+                              />
+                              
+                              <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-[#0B0F19]/40 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-300"></div>
+                              
+                              <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
+                                {/* Club Badge (Top Right) */}
+                                <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full shadow-lg">
+                                  <p className="text-white text-xs font-bold uppercase tracking-wider">{transfer.toClub}</p>
+                                </div>
+
+                                <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                  <h4 className="text-2xl font-black text-white leading-tight font-display mb-1">{transfer.playerName}</h4>
+                                  <p className="text-brand-400 font-bold text-sm uppercase tracking-widest">{transfer.toClub}</p>
                                 </div>
                               </div>
                             </div>
@@ -412,162 +445,187 @@
                     </div>
                   )}
 
-                  <hr className="border-slate-200 dark:border-white/5 my-10" />
+                  <hr className="border-slate-200 dark:border-white/5" />
 
-                  {/* LATEST TRANSFERS BAŞLIĞI */}
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 px-1">
+                  {/* Filter & Latest Transfers Header */}
+                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-4">
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight flex items-center gap-3 uppercase mb-2">
-                        <span className="w-2 h-8 bg-fuchsia-500 rounded-full shadow-[0_0_15px_rgba(217,70,239,0.5)]"></span>
-                        Latest Transfers
-                      </h2>
-                      <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Browse and filter the complete transfer database.</p>
+                        <h2 className="text-2xl font-black font-display tracking-tight text-slate-900 dark:text-white flex items-center gap-3 uppercase mb-2">
+                          <span className="w-2 h-8 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"></span>
+                          Latest Transfers
+                        </h2>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Browse and filter the complete database.</p>
                     </div>
 
                     <button 
                       onClick={() => setIsFilterOpen(!isFilterOpen)} 
-                      className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${isFilterOpen || leagueFilter || nationalityFilter || teamFilter ? 'bg-fuchsia-600 text-white shadow-lg shadow-fuchsia-500/30' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${isFilterOpen || leagueFilter || nationalityFilter || teamFilter ? 'bg-brand-500 text-white shadow-glow' : 'bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10'}`}
                     >
                       <Filter className="w-4 h-4" />
                       {isFilterOpen ? 'Close Filters' : 'Filter & Sort'}
                       {(leagueFilter || nationalityFilter || teamFilter) && (
-                        <span className="ml-1 bg-white text-fuchsia-600 px-2 py-0.5 rounded-md text-[10px] uppercase tracking-wider leading-none">Active</span>
+                        <span className="ml-1 bg-white text-brand-600 px-1.5 py-0.5 rounded text-[10px] leading-none">ACTIVE</span>
                       )}
                     </button>
                   </div>
 
-                  {/* FILTER VE SORT BÖLÜMÜ PANEL */}
-                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isFilterOpen ? 'max-h-[500px] opacity-100 mb-8' : 'max-h-0 opacity-0 m-0'}`}>
-                    <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div className="flex flex-col gap-2">
-                          <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">League</label>
-                          <div className="relative">
-                            <select className="w-full appearance-none bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 transition-all cursor-pointer" value={leagueFilter} onChange={(e) => handleFilterChange('league', e.target.value)}>
-                              <option value="">All Leagues</option>
-                              {uniqueLeagues.map(league => <option key={league} value={league}>{league}</option>)}
-                            </select>
-                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  {/* Filter Panel */}
+                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isFilterOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl p-6 shadow-sm">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                          
+                          {[
+                              { label: 'League', value: leagueFilter, setter: handleFilterChange, type: 'league', options: uniqueLeagues },
+                              { label: 'Nationality', value: nationalityFilter, setter: handleFilterChange, type: 'nationality', options: uniqueNationalities },
+                              { label: 'Team', value: teamFilter, setter: handleFilterChange, type: 'team', options: uniqueTeams }
+                          ].map((filterGrp) => (
+                              <div key={filterGrp.label} className="flex flex-col gap-2">
+                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{filterGrp.label}</label>
+                                <div className="relative">
+                                    <select 
+                                      className="w-full appearance-none bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 pr-10 text-sm font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all cursor-pointer"
+                                      value={filterGrp.value} 
+                                      onChange={(e) => filterGrp.setter(filterGrp.type, e.target.value)}
+                                    >
+                                      <option value="">All {filterGrp.label}s</option>
+                                      {filterGrp.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                    </select>
+                                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                                </div>
+                              </div>
+                          ))}
+
+                          <div className="flex flex-col gap-2">
+                            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Sort By</label>
+                            <div className="relative">
+                                <select 
+                                  className="w-full appearance-none bg-brand-50 dark:bg-brand-500/10 border border-brand-100 dark:border-brand-500/20 rounded-xl px-4 py-3 pr-10 text-sm font-bold text-brand-700 dark:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all cursor-pointer"
+                                  value={sortOrder} 
+                                  onChange={(e) => setSortOrder(e.target.value)}
+                                >
+                                  <option value="newest">Newest First</option>
+                                  <option value="oldest">Oldest First</option>
+                                </select>
+                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 pointer-events-none" />
+                            </div>
                           </div>
+
                         </div>
-                        <div className="flex flex-col gap-2">
-                          <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Nationality</label>
-                          <div className="relative">
-                            <select className="w-full appearance-none bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 transition-all cursor-pointer" value={nationalityFilter} onChange={(e) => handleFilterChange('nationality', e.target.value)}>
-                              <option value="">All Nationalities</option>
-                              {uniqueNationalities.map(nat => <option key={nat} value={nat}>{nat}</option>)}
-                            </select>
-                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Team</label>
-                          <div className="relative">
-                            <select className="w-full appearance-none bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 transition-all cursor-pointer" value={teamFilter} onChange={(e) => handleFilterChange('team', e.target.value)}>
-                              <option value="">All Teams</option>
-                              {uniqueTeams.map(team => <option key={team} value={team}>{team}</option>)}
-                            </select>
-                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Sort By</label>
-                          <div className="relative">
-                            <select className="w-full appearance-none bg-fuchsia-50 dark:bg-fuchsia-500/10 border border-fuchsia-100 dark:border-fuchsia-500/20 rounded-xl px-4 py-3 text-sm font-bold text-fuchsia-700 dark:text-fuchsia-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-500/50 transition-all cursor-pointer" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-                              <option value="newest">Newest First</option>
-                              <option value="oldest">Oldest First</option>
-                            </select>
-                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fuchsia-500 pointer-events-none" />
-                          </div>
-                        </div>
+                        
+                        {(leagueFilter || nationalityFilter || teamFilter) && (
+                             <div className="mt-6 flex justify-end border-t border-slate-100 dark:border-white/5 pt-4">
+                                <button 
+                                    onClick={() => { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(''); }} 
+                                    className="text-sm font-bold text-slate-500 hover:text-brand-500 transition-colors"
+                                >
+                                    Clear All Filters
+                                </button>
+                             </div>
+                        )}
                       </div>
-                      {(leagueFilter || nationalityFilter || teamFilter) && (
-                         <div className="mt-6 flex justify-end border-t border-slate-100 dark:border-slate-700 pt-4">
-                            <button onClick={() => { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(''); }} className="text-sm font-bold text-slate-500 hover:text-fuchsia-600 transition-colors">
-                                Clear All Filters
-                            </button>
-                         </div>
-                      )}
-                    </div>
                   </div>
 
-                  {/* MAIN TRANSFER GRID */}
+                  {/* Main Transfer Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredAndSortedTransfers.length === 0 ? (
-                      <div className="col-span-full flex flex-col items-center justify-center py-24 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 border-dashed">
-                        <div className="w-16 h-16 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-4">
+                      <div className="col-span-full flex flex-col items-center justify-center py-24 bg-white dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/5 border-dashed">
+                        <div className="w-16 h-16 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-4">
                             <Search className="w-8 h-8 text-slate-400" />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">No Transfers Found</h3>
-                        <p className="text-slate-500 dark:text-slate-400 text-center max-w-sm mb-6">We couldn't find any transfers matching your current filters.</p>
+                        <h3 className="text-xl font-bold font-display text-slate-800 dark:text-slate-200 mb-2">No Transfers Found</h3>
+                        <p className="text-slate-500 dark:text-slate-400 text-center max-w-sm mb-6">We couldn't find any transfers matching your current filters. Try adjusting them.</p>
                         <button onClick={() => { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(''); }} className="px-6 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-xl hover:opacity-90 transition-opacity">
                           Clear Filters
                         </button>
                       </div>
                     ) : (
                       filteredAndSortedTransfers.map((transfer) => (
-                        <div key={transfer.id} className="group bg-white dark:bg-slate-800 rounded-[1.5rem] border border-slate-200 dark:border-slate-700 overflow-hidden hover:border-fuchsia-400/50 dark:hover:border-fuchsia-500/50 hover:shadow-xl dark:hover:shadow-fuchsia-900/20 transition-all duration-300 flex flex-col">
+                        <div key={transfer.id} className="group bg-white dark:bg-[#121622] rounded-[1.5rem] border border-slate-200 dark:border-white/5 overflow-hidden hover:border-brand-500/30 dark:hover:border-brand-500/30 hover:shadow-xl dark:hover:shadow-glow transition-all duration-300 flex flex-col">
                           
+                          {/* Card Header: Player Info */}
                           <div className="p-5 flex items-start gap-4">
                             <div className="relative shrink-0">
-                                <div className="absolute inset-0 bg-fuchsia-500 rounded-full blur opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
+                                <div className="absolute inset-0 bg-brand-500 rounded-full blur opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
                                 <img 
                                     src={transfer.playerPhotoUrl ? getSafeImageUrl(transfer.playerPhotoUrl) : generateAvatar(transfer.playerName, 100)} 
                                     alt={transfer.playerName} 
-                                    className="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-slate-700 relative z-10" 
+                                    className="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-slate-800 relative z-10" 
                                     onError={(e) => { e.target.onerror = null; e.target.src = generateAvatar(transfer.playerName, 100); }} 
                                 />
                             </div>
 
                             <div className="flex-1 min-w-0 pt-1">
-                                <h3 className="text-lg font-black text-slate-900 dark:text-white leading-tight truncate mb-1" title={transfer.playerName}>
+                                <h3 className="text-lg font-black font-display text-slate-900 dark:text-white leading-tight truncate mb-1" title={transfer.playerName}>
                                     {transfer.playerName}
                                 </h3>
                                 <div className="flex items-center gap-2 text-xs font-semibold">
-                                    <span onClick={() => handleQuickFilter('nationality', transfer.nationality)} className="text-slate-500 dark:text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 cursor-pointer transition-colors truncate" title={`Filter by ${transfer.nationality}`}>
+                                    <span 
+                                        onClick={() => handleQuickFilter('nationality', transfer.nationality)} 
+                                        className="text-slate-500 dark:text-slate-400 hover:text-brand-500 dark:hover:text-brand-400 cursor-pointer transition-colors truncate"
+                                        title={`Filter by ${transfer.nationality}`}
+                                    >
                                         {transfer.nationality}
                                     </span>
                                     <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                    <span className="text-fuchsia-700 dark:text-fuchsia-300 px-2 py-0.5 bg-fuchsia-50 dark:bg-fuchsia-500/20 rounded-md">
+                                    <span className="text-brand-600 dark:text-brand-400 px-1.5 py-0.5 bg-brand-50 dark:bg-brand-500/10 rounded">
                                         {transfer.position}
                                     </span>
                                 </div>
                             </div>
                           </div>
 
-                          <div className="px-5 py-4 bg-slate-50/50 dark:bg-slate-900/50 border-y border-slate-100 dark:border-slate-700/50 flex flex-col justify-center flex-1">
+                          {/* Card Body: Transfer Path */}
+                          <div className="px-5 py-4 bg-slate-50/50 dark:bg-black/20 border-y border-slate-100 dark:border-white/5 flex flex-col justify-center flex-1">
                               <div className="flex items-center justify-between w-full">
+                                  {/* From */}
                                   <div className="flex-1 min-w-0 pr-2">
                                       <span className="block text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-1">From</span>
-                                      <span onClick={() => handleQuickFilter('team', transfer.fromClub)} className="block text-sm font-semibold text-slate-600 dark:text-slate-300 truncate cursor-pointer hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors">
+                                      <span 
+                                        onClick={() => handleQuickFilter('team', transfer.fromClub)} 
+                                        className="block text-sm font-semibold text-slate-600 dark:text-slate-300 truncate cursor-pointer hover:text-brand-500 transition-colors"
+                                      >
                                           {transfer.fromClub}
                                       </span>
                                   </div>
                                   
-                                  <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-400 group-hover:text-fuchsia-500 group-hover:border-fuchsia-200 dark:group-hover:border-fuchsia-500/50 transition-all">
+                                  {/* Arrow */}
+                                  <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-[#1a1c29] border border-slate-100 dark:border-white/5 text-slate-300 dark:text-slate-500 group-hover:text-brand-500 group-hover:border-brand-200 dark:group-hover:border-brand-500/30 transition-all">
                                       <ArrowRight className="w-4 h-4" />
                                   </div>
 
+                                  {/* To */}
                                   <div className="flex-1 min-w-0 pl-2 text-right">
-                                      <span className="block text-[10px] uppercase font-bold tracking-widest text-fuchsia-500 mb-1">Joined</span>
-                                      <span onClick={() => handleQuickFilter('team', transfer.toClub)} className="block text-sm font-black text-slate-900 dark:text-white truncate cursor-pointer hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors">
+                                      <span className="block text-[10px] uppercase font-bold tracking-widest text-brand-500 mb-1">Joined</span>
+                                      <span 
+                                        onClick={() => handleQuickFilter('team', transfer.toClub)} 
+                                        className="block text-sm font-black text-slate-900 dark:text-white truncate cursor-pointer hover:text-brand-500 transition-colors"
+                                      >
                                           {transfer.toClub}
                                       </span>
                                   </div>
                               </div>
                           </div>
 
-                          <div className="p-5 flex items-center justify-between bg-white dark:bg-slate-800">
+                          {/* Card Footer: Metadata & Actions */}
+                          <div className="p-5 flex items-center justify-between">
                               <div className="flex flex-col gap-1 min-w-0">
-                                  <div onClick={() => handleQuickFilter('league', transfer.league)} className="text-xs font-bold text-indigo-600 dark:text-indigo-400 cursor-pointer hover:underline truncate">
+                                  <div 
+                                    onClick={() => handleQuickFilter('league', transfer.league)} 
+                                    className="text-xs font-bold text-indigo-600 dark:text-indigo-400 cursor-pointer hover:underline truncate"
+                                  >
                                       {transfer.league}
                                   </div>
-                                  <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                  <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
                                       <Calendar className="w-3 h-3" /> {formatDate(transfer.date)}
                                   </div>
                               </div>
 
-                              <button onClick={() => handleShareTwitter(transfer)} disabled={generatingId === transfer.id} className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 hover:bg-[#1DA1F2] hover:text-white dark:hover:bg-[#1DA1F2] dark:hover:text-white transition-all disabled:opacity-50" title="Share Transfer Card">
+                              <button 
+                                onClick={() => handleShareTwitter(transfer)} 
+                                disabled={generatingId === transfer.id} 
+                                className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-[#1DA1F2] hover:text-white dark:hover:bg-[#1DA1F2] dark:hover:text-white transition-all disabled:opacity-50"
+                                title="Share Transfer Card"
+                              >
                                 {generatingId === transfer.id ? (
                                     <span className="w-5 h-5 block animate-spin rounded-full border-2 border-current border-t-transparent"></span>
                                 ) : (
@@ -583,8 +641,8 @@
                 </main>
                 
                 {/* Footer */}
-                <footer className="w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
-                   <p>© {new Date().getFullYear()} Womens Football Transfer Tracker. All rights reserved.</p>
+                <footer className="w-full border-t border-slate-200 dark:border-white/5 bg-white dark:bg-[#0B0F19] py-8 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+                   <p>© {new Date().getFullYear()} W-Transfer Tracker. All rights reserved.</p>
                 </footer>
 
               </div>
