@@ -66,6 +66,7 @@
         const Moon = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
         const Sun = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
         const Zap = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>;
+        const Download = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>;
         
         const XLogo = (props) => (
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -164,9 +165,8 @@
           { id: 84, playerName: "Toni Payne", playerPhotoUrl: "https://github.com/user-attachments/assets/42154da5-8d1b-486f-b821-7f1007899095", nationality: "Nigeria", position: "RM", fromClub: "Everton", toClub: "Inter Milan", league: "Serie A Femminile", date: "2026-07-12", fee: "Free Transfer" },   
           { id: 85, playerName: "Ella Touon", playerPhotoUrl: "https://github.com/user-attachments/assets/5856ef43-5ce0-4da7-b68f-9c127ce71b3a", nationality: "Switzerland", position: "LB", fromClub: "1. FC Köln", toClub: "Ajax", league: "Eredivisie Women", date: "2026-07-12", fee: "Free Transfer" },   
           { id: 86, playerName: "Camilla Forcinella", playerPhotoUrl: "https://github.com/user-attachments/assets/185b1005-f1f6-4bd1-9c54-06457a68157a", nationality: "Italy", position: "GK", fromClub: "Genoa", toClub: "Inter Milan", league: "Serie A Femminile", date: "2026-07-12", fee: "Free Transfer" },   
-          { id: 87, playerName: "Lisa Baum", playerPhotoUrl: "https://github.com/user-attachments/assets/21e98c05-8bc8-4c5a-9ec6-12975f9d4a4b", nationality: "Germany", position: "RM", fromClub: "RB Leipzig", toClub: "Arsenal", league: "WSL", date: "2026-07-14", fee: "Free Transfer" },                        
-          { id: 88, playerName: "Mapi León", playerPhotoUrl: "https://github.com/user-attachments/assets/18ecd92a-cd59-49fe-adcb-3d4d5b53b26d", topPhotoUrl: "https://github.com/user-attachments/assets/b02da5f6-67b8-4f82-8f28-cf7aa2356514", nationality: "Spain", position: "CB", fromClub: "Barcelona", toClub: "London City Lionesses", league: "WSL", date: "2026-07-13", fee: "Free Transfer" },                        
-          { id: 89, playerName: "Meryem Başkaya", playerPhotoUrl: "https://github.com/user-attachments/assets/bc2b24b3-4f9b-4d9e-af18-a71cb565c489", nationality: "Turkiye", position: "CB", fromClub: "Odense", toClub: "Galatasaray", league: "Turkcell Kadın Süper Ligi", date: "2026-07-13", fee: "Free Transfer" },                        
+          { id: 87, playerName: "Lisa Baum", playerPhotoUrl: "https://github.com/user-attachments/assets/18ecd92a-cd59-49fe-adcb-3d4d5b53b26d", nationality: "Germany", position: "RM", fromClub: "RB Leipzig", toClub: "Arsenal", league: "WSL", date: "2026-07-14", fee: "Free Transfer" },                        
+          { id: 88, playerName: "Mapi León", playerPhotoUrl: "https://github.com/user-attachments/assets/18ecd92a-cd59-49fe-adcb-3d4d5b53b26d", topPhotoUrl: "https://github.com/user-attachments/assets/b02da5f6-67b8-4f82-8f28-cf7aa2356514", nationality: "Spain", position: "CB", fromClub: "Barcelona", toClub: "London City Lionesses", league: "WSL", date: "2026-07-13", fee: "Free Transfer" },          { id: 89, playerName: "Meryem Başkaya", playerPhotoUrl: "https://github.com/user-attachments/assets/bc2b24b3-4f9b-4d9e-af18-a71cb565c489", nationality: "Turkiye", position: "CB", fromClub: "Odense", toClub: "Galatasaray", league: "Turkcell Kadın Süper Ligi", date: "2026-07-13", fee: "Free Transfer" },                        
           { id: 90, playerName: "Carole Costa", playerPhotoUrl: "https://github.com/user-attachments/assets/0c1d2618-1ac8-4349-b2e1-dc6c75daa566", nationality: "Portugal", position: "CB", fromClub: "SL Benfica", toClub: "Galatasaray", league: "Turkcell Kadın Süper Ligi", date: "2026-07-13", fee: "Free Transfer" },                        
           { id: 91, playerName: "Charli Grant", playerPhotoUrl: "https://github.com/user-attachments/assets/37c2a5e2-c2c3-4052-ad3a-2a2457fffaf5", nationality: "Australia", position: "LB", fromClub: "Tottenham Hotspur", toClub: "Malmö", league: "Damallsvenskan", date: "2026-07-13", fee: "Free Transfer" },                        
           { id: 92, playerName: "Khiara Keating", playerPhotoUrl: "https://github.com/user-attachments/assets/8fc54944-af6e-4f64-93a2-80525df22c26", nationality: "England", position: "GK", fromClub: "Manchester City", toClub: "Liverpool", league: "WSL", date: "2026-07-13", fee: "Free Transfer" },                        
@@ -217,6 +217,9 @@
           
           const [generatingId, setGeneratingId] = useState(null);
           const [exportTransfer, setExportTransfer] = useState(null);
+
+          const [generatingDailyDate, setGeneratingDailyDate] = useState(null);
+          const [exportDailyData, setExportDailyData] = useState(null);
 
           const [leagueFilter, setLeagueFilter] = useState('');
           const [nationalityFilter, setNationalityFilter] = useState('');
@@ -314,6 +317,66 @@
             }, 600);
           };
 
+          const handleShareDaily = async (date) => {
+            if (generatingDailyDate) return;
+            const dayTransfers = transfers.filter(t => t.date === date);
+            if (dayTransfers.length === 0) return;
+
+            setGeneratingDailyDate(date);
+
+            // Oyuncu fotoğraflarını asenkron olarak proxy üzerinden çekiyoruz
+            const processedTransfers = await Promise.all(dayTransfers.map(async (t) => {
+                let safeBase64Url = '';
+                if (t.playerPhotoUrl) {
+                  try {
+                    const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(t.playerPhotoUrl)}&output=png&w=200&h=200&fit=cover&q=100`;
+                    const res = await fetch(proxyUrl);
+                    if (res.ok) {
+                        const blob = await res.blob();
+                        safeBase64Url = await blobToBase64(blob);
+                    } else {
+                        throw new Error("Proxy fetch failed");
+                    }
+                  } catch (error) {
+                    console.error("Görsel yüklenemedi, yedek oluşturuluyor:", error);
+                    safeBase64Url = generateAvatar(t.playerName, 200);
+                  }
+                } else {
+                  safeBase64Url = generateAvatar(t.playerName, 200);
+                }
+                return { ...t, base64Photo: safeBase64Url };
+            }));
+
+            setExportDailyData({ date, transfers: processedTransfers });
+
+            const tweetText = `🚨 ALL TRANSFERS FROM ${formatDate(date)}!\n\nCheck out today's top moves in Women's Football ✍️⚽\n\n📸 (Attach the downloaded summary!)\n\n#WomensFootball #TransferTracker`;
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+            window.open(twitterUrl, '_blank');
+
+            setTimeout(async () => {
+              try {
+                const cardElement = document.getElementById('daily-export-card-node');
+                if (cardElement && window.html2canvas) {
+                  const canvas = await window.html2canvas(cardElement, {
+                    useCORS: true,
+                    scale: 2,
+                    backgroundColor: '#0B0F19'
+                  });
+                  const dataUrl = canvas.toDataURL("image/png");
+                  const link = document.createElement("a");
+                  link.href = dataUrl;
+                  link.download = `Transfers_Summary_${date}.png`;
+                  link.click();
+                }
+              } catch (error) {
+                console.error("Daily Canvas error:", error);
+              } finally {
+                setGeneratingDailyDate(null);
+                setExportDailyData(null);
+              }
+            }, 800); 
+          };
+
           const topTransfers = useMemo(() => {
             const topTransferIds = [59, 51, 88, 5, 60, 25, 40, 56]; 
             return topTransferIds
@@ -360,30 +423,89 @@
                 {/* Export Card Node (Hidden) */}
                 {exportTransfer && (
                   <div className="fixed left-[-9999px] top-[0] z-[-1] pointer-events-none">
-                    <div id="export-card-node" className="w-[1080px] h-[1080px] flex flex-col items-center justify-center bg-gradient-to-br from-[#0B0F19] via-[#1a0b2e] to-[#0B0F19] text-white p-12 font-sans relative overflow-hidden">
-                      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-brand-600/30 rounded-full blur-[100px]"></div>
-                      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/30 rounded-full blur-[100px]"></div>
-                      <div className="absolute top-16 left-1/2 -translate-x-1/2 text-brand-400 px-12 py-4 text-4xl font-extrabold tracking-[0.3em] uppercase z-10 whitespace-nowrap font-display drop-shadow-md">
+                    <div id="export-card-node" className="w-[1080px] h-[1080px] flex flex-col items-center justify-center bg-gradient-to-br from-[#701a75] via-[#4c1d95] to-[#1e3a8a] text-white p-12 font-sans relative overflow-hidden">
+                      
+                      <div className="absolute top-16 left-1/2 -translate-x-1/2 text-white px-12 py-4 text-4xl font-extrabold tracking-[0.3em] uppercase z-10 whitespace-nowrap font-display drop-shadow-md">
                         TRANSFER UPDATE
                       </div>
-                      <img src={exportTransfer.base64Photo} alt={exportTransfer.playerName} className="w-[360px] h-[360px] rounded-full object-cover border-[6px] border-white/10 shadow-glow mb-12 mt-20 relative z-10 bg-slate-800 shrink-0" />
-                      <h2 className="text-8xl font-black mb-6 text-center leading-tight break-words max-w-[950px] font-display tracking-tight uppercase">
+                      
+                      <img src={exportTransfer.base64Photo} alt={exportTransfer.playerName} className="w-[360px] h-[360px] rounded-full object-cover border-[8px] border-white/30 shadow-2xl mb-12 mt-20 relative z-10 shrink-0" />
+                      
+                      <h2 className="text-8xl font-black mb-6 text-center leading-tight break-words max-w-[950px] font-display tracking-tight uppercase z-10">
                         {exportTransfer.playerName}
                       </h2>
-                      <div className="flex items-center gap-6 text-3xl text-slate-300 mb-10 tracking-widest font-semibold uppercase">
+                      
+                      <div className="flex items-center gap-6 text-3xl text-brand-200 font-bold mb-10 tracking-widest uppercase z-10">
                         <span>{exportTransfer.nationality}</span>
-                        <span className="text-brand-500">•</span>
-                        <span className="text-white">{exportTransfer.position}</span>
+                        <span className="text-white">•</span>
+                        <span>{exportTransfer.position}</span>
                       </div>
-                      <div className="flex items-center justify-center gap-8 w-full max-w-[950px] bg-white/5 backdrop-blur-sm p-8 rounded-3xl border border-white/10 relative z-10">
-                        <div className="flex-1 text-right text-4xl font-bold text-slate-400 truncate">{exportTransfer.fromClub}</div>
-                        <div className="shrink-0 bg-brand-500 p-4 rounded-full shadow-glow">
-                           <ArrowRight className="w-8 h-8 text-white" />
+                      
+                      <div className="flex items-stretch justify-between gap-6 w-full max-w-[950px] bg-white/10 backdrop-blur-md px-10 py-10 rounded-3xl border border-white/20 shadow-xl relative z-10 min-h-[180px]">
+                        <div className="flex-1 flex flex-col justify-center pb-6 text-right text-5xl font-bold text-white/90 whitespace-normal break-words leading-tight">
+                            <span>{exportTransfer.fromClub}</span>
                         </div>
-                        <div className="flex-1 text-left text-5xl font-black text-white truncate">{exportTransfer.toClub}</div>
+                        <div className="flex flex-col justify-center items-center shrink-0 px-2 pb-6">
+                           <ArrowRight className="w-20 h-20 text-brand-400" strokeWidth="4" />
+                        </div>
+                        <div className="flex-1 flex flex-col justify-center pb-6 text-left text-6xl font-black text-white whitespace-normal break-words leading-tight">
+                            <span>{exportTransfer.toClub}</span>
+                        </div>
                       </div>
-                      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-xl text-slate-500 font-semibold w-full text-center tracking-[0.4em] uppercase">
-                        W-TRANSFER TRACKER
+
+                      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-2xl text-white/60 font-bold w-full text-center tracking-[0.3em] uppercase z-10">
+                        WOMENS FOOTBALL TRANSFER TRACKER
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Daily Export Card Node (Hidden) */}
+                {exportDailyData && (
+                  <div className="fixed left-[-9999px] top-[0] z-[-1] pointer-events-none">
+                    <div id="daily-export-card-node" className="w-[1080px] flex flex-col bg-gradient-to-br from-[#701a75] via-[#4c1d95] to-[#1e3a8a] text-white p-12 font-sans relative" style={{ minHeight: '1350px', height: 'auto' }}>
+
+                      <div className="text-white text-3xl font-extrabold tracking-[0.3em] uppercase z-10 mb-2 font-display text-center mt-8">
+                        DAILY SUMMARY
+                      </div>
+                      <h2 className="text-6xl font-black mb-16 text-center leading-tight font-display tracking-tight uppercase z-10">
+                        {formatDate(exportDailyData.date)}
+                      </h2>
+
+                      <div className="flex flex-col gap-6 z-10 flex-1 w-full max-w-[950px] mx-auto">
+                        {exportDailyData.transfers.slice(0, 8).map((t, i) => (
+                          <div key={i} className="flex items-center gap-6 bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20 shadow-xl">
+                            <img src={t.base64Photo} className="w-20 h-20 rounded-full object-cover border-[3px] border-white/30 shrink-0" />
+                            
+                            {/* Oyuncu bilgi alanı - pb-3 eklendi, satır boşlukları sıkılaştırılıp yazı yukarı itildi */}
+                            <div className="flex-1 min-w-0 pb-3">
+                                <h3 className="text-3xl font-black font-display text-white whitespace-normal break-words leading-none mb-1.5">{t.playerName}</h3>
+                                <div className="text-2xl text-brand-200 font-bold whitespace-normal break-words leading-none">{t.nationality} • {t.position}</div>
+                            </div>
+                            
+                            {/* Takım ve ok alanı - Alt kısımlarına pb-3 (padding-bottom) eklenerek yukarı itilmeleri sağlandı */}
+                            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 text-2xl font-bold shrink-0 w-[440px] self-stretch">
+                                <div className="flex items-center justify-end h-full pb-3 text-white/90 text-right whitespace-normal leading-tight break-words">
+                                    <span>{t.fromClub}</span>
+                                </div>
+                                <div className="flex items-center justify-center h-full pb-3">
+                                    <ArrowRight className="w-8 h-8 text-brand-400 shrink-0" strokeWidth="4" />
+                                </div>
+                                <div className="flex items-center justify-start h-full pb-3 text-white text-left whitespace-normal leading-tight break-words">
+                                    <span>{t.toClub}</span>
+                                </div>
+                            </div>
+                          </div>
+                        ))}
+                        {exportDailyData.transfers.length > 8 && (
+                          <div className="text-center text-3xl text-brand-200 font-bold mt-4 bg-white/10 py-6 rounded-2xl border border-white/20 shadow-lg">
+                            + {exportDailyData.transfers.length - 8} more transfers
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="mt-16 mb-8 text-center text-2xl text-white/60 font-bold tracking-[0.3em] uppercase z-10">
+                        WOMENS FOOTBALL TRANSFER TRACKER
                       </div>
                     </div>
                   </div>
@@ -671,6 +793,30 @@
                           </div>
                         </div>
                       ))
+                    )}
+                    
+                    {/* Daily Summary Download Button */}
+                    {selectedDate && filteredAndSortedTransfers.length > 0 && (
+                      <div className="col-span-full mt-6 flex justify-center">
+                        <button 
+                          onClick={() => handleShareDaily(selectedDate)}
+                          disabled={generatingDailyDate === selectedDate}
+                          className="group relative flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-black text-lg rounded-2xl shadow-glow hover:shadow-glow-lg transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden"
+                        >
+                          <div className="absolute inset-0 bg-white/20 group-hover:translate-x-full -translate-x-full transition-transform duration-700 skew-x-12"></div>
+                          {generatingDailyDate === selectedDate ? (
+                            <>
+                              <span className="w-6 h-6 block animate-spin rounded-full border-4 border-white/30 border-t-white"></span>
+                              Generating Summary...
+                            </>
+                          ) : (
+                            <>
+                              <Download className="w-6 h-6" />
+                              Download {formatShortDate(selectedDate)} Summary
+                            </>
+                          )}
+                        </button>
+                      </div>
                     )}
                   </div>
 
