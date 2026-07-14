@@ -7,7 +7,6 @@
     
     <link rel="icon" type="image/png" href="transfer.png">
     
-    <!-- Google Fonts for Premium Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lexend:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -62,10 +61,8 @@
         const Search = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>;
         const Calendar = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>;
         const ArrowRight = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
-        const ArrowRightLeft = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>;
         const Filter = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>;
         const ChevronDown = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m6 9 6 6 6-6"/></svg>;
-        const ChevronUp = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="m18 15-6-6-6 6"/></svg>;
         const Moon = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
         const Sun = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
         const Zap = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>;
@@ -176,7 +173,6 @@
           { id: 93, playerName: "Emilie Haavi", playerPhotoUrl: "https://github.com/user-attachments/assets/911c15e7-171e-4b18-b738-a41c0eb9559b", nationality: "Norway", position: "LW", fromClub: "AS Roma", toClub: "Como", league: "Serie A Femminile", date: "2026-07-14", fee: "Free Transfer" },                                
         ];
 
-        // Yedek avatar oluşturma - Çözünürlük ve keskinlik artırıldı
         const generateAvatar = (name, size = 800) => {
           try {
             const canvas = document.createElement('canvas');
@@ -184,7 +180,6 @@
             canvas.height = size;
             const ctx = canvas.getContext('2d');
             
-            // Premium dark background for avatars
             const gradient = ctx.createLinearGradient(0, 0, size, size);
             gradient.addColorStop(0, '#c026d3');
             gradient.addColorStop(1, '#4c1d95');
@@ -218,7 +213,7 @@
         function App() {
           const [transfers, setTransfers] = useState(mockTransfers);
           const [isFilterOpen, setIsFilterOpen] = useState(false);
-          const [isDarkMode, setIsDarkMode] = useState(true); // Premium look default
+          const [isDarkMode, setIsDarkMode] = useState(true);
           
           const [generatingId, setGeneratingId] = useState(null);
           const [exportTransfer, setExportTransfer] = useState(null);
@@ -226,6 +221,7 @@
           const [leagueFilter, setLeagueFilter] = useState('');
           const [nationalityFilter, setNationalityFilter] = useState('');
           const [teamFilter, setTeamFilter] = useState(''); 
+          const [selectedDate, setSelectedDate] = useState(''); // Yeni tarih filtresi state'i
           const [sortOrder, setSortOrder] = useState('newest'); 
 
           useEffect(() => {
@@ -239,16 +235,29 @@
           const uniqueLeagues = useMemo(() => [...new Set([...ALL_LEAGUES, ...transfers.map(t => t.league)])].sort(), [transfers]);
           const uniqueNationalities = useMemo(() => [...new Set([...ALL_NATIONALITIES, ...transfers.map(t => t.nationality)])].sort(), [transfers]);
           const uniqueTeams = useMemo(() => [...new Set([...ALL_TEAMS, ...transfers.map(t => t.toClub), ...transfers.map(t => t.fromClub)])].sort(), [transfers]);
+          
+          // Günleri çıkarıp en yeniden en eskiye doğru sıralıyoruz
+          const uniqueDates = useMemo(() => {
+             const dates = [...new Set(transfers.map(t => t.date))];
+             return dates.sort((a, b) => new Date(b) - new Date(a));
+          }, [transfers]);
 
           const handleFilterChange = (type, value) => {
-            if (type === 'league') { setLeagueFilter(leagueFilter === value ? '' : value); setNationalityFilter(''); setTeamFilter(''); }
-            else if (type === 'nationality') { setLeagueFilter(''); setNationalityFilter(nationalityFilter === value ? '' : value); setTeamFilter(''); }
-            else if (type === 'team') { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(teamFilter === value ? '' : value); }
+            if (type === 'league') { setLeagueFilter(leagueFilter === value ? '' : value); setNationalityFilter(''); setTeamFilter(''); setSelectedDate(''); }
+            else if (type === 'nationality') { setLeagueFilter(''); setNationalityFilter(nationalityFilter === value ? '' : value); setTeamFilter(''); setSelectedDate(''); }
+            else if (type === 'team') { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(teamFilter === value ? '' : value); setSelectedDate(''); }
           };
 
           const handleQuickFilter = (type, value) => {
             handleFilterChange(type, value);
             window.scrollTo({ top: 0, behavior: 'smooth' });
+          };
+
+          const clearAllFilters = () => {
+              setLeagueFilter('');
+              setNationalityFilter('');
+              setTeamFilter('');
+              setSelectedDate('');
           };
 
           const handleShareTwitter = async (transfer) => {
@@ -263,7 +272,6 @@
             let safeBase64Url = '';
             if (transfer.playerPhotoUrl) {
               try {
-                // Export için kalitesi ve çözünürlüğü artırılmış proxy kullanımı (q=100, w=800, h=800)
                 const proxyUrl = `https://wsrv.nl/?url=${encodeURIComponent(transfer.playerPhotoUrl)}&output=png&w=800&h=800&fit=cover&q=100`;
                 const res = await fetch(proxyUrl);
                 if (res.ok) {
@@ -288,8 +296,8 @@
                 if (cardElement && window.html2canvas) {
                   const canvas = await window.html2canvas(cardElement, {
                     useCORS: true,
-                    scale: 2, // Retina kalitesinde export için scale artırıldı
-                    backgroundColor: '#0B0F19' // Match dark mode body background
+                    scale: 2,
+                    backgroundColor: '#0B0F19'
                   });
                   const dataUrl = canvas.toDataURL("image/png");
                   const link = document.createElement("a");
@@ -306,7 +314,6 @@
             }, 600);
           };
 
-          // Top Transfers - Exact specified order
           const topTransfers = useMemo(() => {
             const topTransferIds = [59, 51, 88, 5, 60, 25, 40, 56]; 
             return topTransferIds
@@ -314,12 +321,13 @@
                 .filter(t => t !== undefined); 
           }, [transfers]);
 
-          // Latest Transfers - Sort by Date, then ID
           const filteredAndSortedTransfers = useMemo(() => {
             let result = transfers;
             if (leagueFilter) result = result.filter(t => t.league === leagueFilter);
             if (nationalityFilter) result = result.filter(t => t.nationality === nationalityFilter);
             if (teamFilter) result = result.filter(t => t.toClub === teamFilter || t.fromClub === teamFilter);
+            // Tarih bazlı yeni filtreleme şartı
+            if (selectedDate) result = result.filter(t => t.date === selectedDate);
             
             result = [...result].sort((a, b) => {
               const dateA = new Date(a.date);
@@ -332,11 +340,17 @@
               return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
             });
             return result;
-          }, [transfers, leagueFilter, nationalityFilter, teamFilter, sortOrder]);
+          }, [transfers, leagueFilter, nationalityFilter, teamFilter, selectedDate, sortOrder]);
 
           const formatDate = (dateString) => {
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
             return new Date(dateString).toLocaleDateString('en-US', options).toUpperCase();
+          };
+          
+          // Günler sekmesinde göstermek için kısa tarih formatı
+          const formatShortDate = (dateString) => {
+            const options = { month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
           };
 
           return (
@@ -347,27 +361,20 @@
                 {exportTransfer && (
                   <div className="fixed left-[-9999px] top-[0] z-[-1] pointer-events-none">
                     <div id="export-card-node" className="w-[1080px] h-[1080px] flex flex-col items-center justify-center bg-gradient-to-br from-[#0B0F19] via-[#1a0b2e] to-[#0B0F19] text-white p-12 font-sans relative overflow-hidden">
-                      
-                      {/* Premium Lights */}
                       <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-brand-600/30 rounded-full blur-[100px]"></div>
                       <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/30 rounded-full blur-[100px]"></div>
-
                       <div className="absolute top-16 left-1/2 -translate-x-1/2 text-brand-400 px-12 py-4 text-4xl font-extrabold tracking-[0.3em] uppercase z-10 whitespace-nowrap font-display drop-shadow-md">
                         TRANSFER UPDATE
                       </div>
-                      
                       <img src={exportTransfer.base64Photo} alt={exportTransfer.playerName} className="w-[360px] h-[360px] rounded-full object-cover border-[6px] border-white/10 shadow-glow mb-12 mt-20 relative z-10 bg-slate-800 shrink-0" />
-                      
                       <h2 className="text-8xl font-black mb-6 text-center leading-tight break-words max-w-[950px] font-display tracking-tight uppercase">
                         {exportTransfer.playerName}
                       </h2>
-                      
                       <div className="flex items-center gap-6 text-3xl text-slate-300 mb-10 tracking-widest font-semibold uppercase">
                         <span>{exportTransfer.nationality}</span>
                         <span className="text-brand-500">•</span>
                         <span className="text-white">{exportTransfer.position}</span>
                       </div>
-                      
                       <div className="flex items-center justify-center gap-8 w-full max-w-[950px] bg-white/5 backdrop-blur-sm p-8 rounded-3xl border border-white/10 relative z-10">
                         <div className="flex-1 text-right text-4xl font-bold text-slate-400 truncate">{exportTransfer.fromClub}</div>
                         <div className="shrink-0 bg-brand-500 p-4 rounded-full shadow-glow">
@@ -375,7 +382,6 @@
                         </div>
                         <div className="flex-1 text-left text-5xl font-black text-white truncate">{exportTransfer.toClub}</div>
                       </div>
-
                       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-xl text-slate-500 font-semibold w-full text-center tracking-[0.4em] uppercase">
                         W-TRANSFER TRACKER
                       </div>
@@ -387,7 +393,6 @@
                 <header className="relative w-full border-b border-slate-200 dark:border-white/5 bg-white/80 dark:bg-[#0B0F19]/80 backdrop-blur-xl sticky top-0 z-40">
                   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-20">
-                      
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-indigo-600 flex items-center justify-center shadow-glow">
                           <span className="text-white font-black text-xl font-display">W</span>
@@ -396,13 +401,11 @@
                           Womens Football <span className="text-brand-600 dark:text-brand-400">Transfer Tracker</span>
                         </h1>
                       </div>
-                      
                       <div className="flex items-center gap-4">
                         <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors focus:outline-none ring-1 ring-slate-200 dark:ring-white/10" title="Toggle Theme">
                           {isDarkMode ? <Sun className="w-5 h-5 text-slate-300" /> : <Moon className="w-5 h-5 text-slate-600" />}
                         </button>
                       </div>
-
                     </div>
                   </div>
                 </header>
@@ -423,7 +426,7 @@
                     </p>
                   </div>
 
-                  {/* Top Transfers Premium Scroll */}
+                  {}
                   {topTransfers.length > 0 && (
                     <div className="relative">
                       <div className="flex items-center justify-between mb-8">
@@ -437,17 +440,13 @@
                         {topTransfers.map((transfer) => {
                           return (
                             <div key={`top-${transfer.id}`} className="snap-start shrink-0 w-[280px] h-[380px] rounded-[2rem] overflow-hidden relative group cursor-pointer border border-slate-200 dark:border-white/10 shadow-lg hover:shadow-xl dark:shadow-none hover:-translate-y-2 transition-all duration-500 bg-white dark:bg-slate-900 isolate">
-                              
-                              {/* Düzeltme: Orijinal GitHub bağlantısını doğrudan kullanarak maksimum görüntü kalitesi sağlanıyor */}
                               <img 
                                 src={transfer.topPhotoUrl ? transfer.topPhotoUrl : (transfer.playerPhotoUrl ? transfer.playerPhotoUrl : generateAvatar(transfer.playerName, 800))}
                                 alt={transfer.playerName}
                                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 onError={(e) => { e.target.onerror = null; e.target.src = generateAvatar(transfer.playerName, 800); }}
                               />
-                              
                               <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-[#0B0F19]/40 to-transparent opacity-90 group-hover:opacity-80 transition-opacity duration-300"></div>
-                              
                               <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
                                 <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                                   <h4 className="text-2xl font-black text-white leading-tight font-display mb-1">{transfer.playerName}</h4>
@@ -463,83 +462,115 @@
 
                   <hr className="border-slate-200 dark:border-white/5" />
 
-                  {/* Filter & Latest Transfers Header */}
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-4">
-                    <div>
-                        <h2 className="text-2xl font-black font-display tracking-tight text-slate-900 dark:text-white flex items-center gap-3 uppercase mb-2">
-                          <span className="w-2 h-8 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"></span>
-                          Latest Transfers
-                        </h2>
+                  {}
+                  <div className="flex flex-col gap-6">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-4">
+                      <div>
+                          <h2 className="text-2xl font-black font-display tracking-tight text-slate-900 dark:text-white flex items-center gap-3 uppercase mb-2">
+                            <span className="w-2 h-8 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"></span>
+                            Latest Transfers
+                          </h2>
+                      </div>
+
+                      <button 
+                        onClick={() => setIsFilterOpen(!isFilterOpen)} 
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${isFilterOpen || leagueFilter || nationalityFilter || teamFilter || selectedDate ? 'bg-brand-500 text-white shadow-glow' : 'bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10'}`}
+                      >
+                        <Filter className="w-4 h-4" />
+                        {isFilterOpen ? 'Close Filters' : 'Filter & Sort'}
+                        {(leagueFilter || nationalityFilter || teamFilter || selectedDate) && (
+                          <span className="ml-1 bg-white text-brand-600 px-1.5 py-0.5 rounded text-[10px] leading-none">ACTIVE</span>
+                        )}
+                      </button>
                     </div>
 
-                    <button 
-                      onClick={() => setIsFilterOpen(!isFilterOpen)} 
-                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${isFilterOpen || leagueFilter || nationalityFilter || teamFilter ? 'bg-brand-500 text-white shadow-glow' : 'bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10'}`}
-                    >
-                      <Filter className="w-4 h-4" />
-                      {isFilterOpen ? 'Close Filters' : 'Filter & Sort'}
-                      {(leagueFilter || nationalityFilter || teamFilter) && (
-                        <span className="ml-1 bg-white text-brand-600 px-1.5 py-0.5 rounded text-[10px] leading-none">ACTIVE</span>
-                      )}
-                    </button>
-                  </div>
-
-                  {/* Filter Panel */}
-                  <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isFilterOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <div className="bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl p-6 shadow-sm">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                          
-                          {[
-                              { label: 'League', value: leagueFilter, setter: handleFilterChange, type: 'league', options: uniqueLeagues },
-                              { label: 'Nationality', value: nationalityFilter, setter: handleFilterChange, type: 'nationality', options: uniqueNationalities },
-                              { label: 'Team', value: teamFilter, setter: handleFilterChange, type: 'team', options: uniqueTeams }
-                          ].map((filterGrp) => (
-                              <div key={filterGrp.label} className="flex flex-col gap-2">
-                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{filterGrp.label}</label>
-                                <div className="relative">
-                                    <select 
-                                      className="w-full appearance-none bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 pr-10 text-sm font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all cursor-pointer"
-                                      value={filterGrp.value} 
-                                      onChange={(e) => filterGrp.setter(filterGrp.type, e.target.value)}
-                                    >
-                                      <option value="">All {filterGrp.label}s</option>
-                                      {filterGrp.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                                    </select>
-                                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    {/* Main Dropdown Filter Panel */}
+                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isFilterOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 hidden'}`}>
+                        <div className="bg-white dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-2xl p-6 shadow-sm mb-2">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            
+                            {[
+                                { label: 'League', value: leagueFilter, setter: handleFilterChange, type: 'league', options: uniqueLeagues },
+                                { label: 'Nationality', value: nationalityFilter, setter: handleFilterChange, type: 'nationality', options: uniqueNationalities },
+                                { label: 'Team', value: teamFilter, setter: handleFilterChange, type: 'team', options: uniqueTeams }
+                            ].map((filterGrp) => (
+                                <div key={filterGrp.label} className="flex flex-col gap-2">
+                                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{filterGrp.label}</label>
+                                  <div className="relative">
+                                      <select 
+                                        className="w-full appearance-none bg-slate-50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 pr-10 text-sm font-semibold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all cursor-pointer"
+                                        value={filterGrp.value} 
+                                        onChange={(e) => filterGrp.setter(filterGrp.type, e.target.value)}
+                                      >
+                                        <option value="">All {filterGrp.label}s</option>
+                                        {filterGrp.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                      </select>
+                                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                                  </div>
                                 </div>
-                              </div>
-                          ))}
+                            ))}
 
-                          <div className="flex flex-col gap-2">
-                            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Sort By</label>
-                            <div className="relative">
-                                <select 
-                                  className="w-full appearance-none bg-brand-50 dark:bg-brand-500/10 border border-brand-100 dark:border-brand-500/20 rounded-xl px-4 py-3 pr-10 text-sm font-bold text-brand-700 dark:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all cursor-pointer"
-                                  value={sortOrder} 
-                                  onChange={(e) => setSortOrder(e.target.value)}
-                                >
-                                  <option value="newest">Newest First</option>
-                                  <option value="oldest">Oldest First</option>
-                                </select>
-                                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 pointer-events-none" />
+                            <div className="flex flex-col gap-2">
+                              <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Sort By</label>
+                              <div className="relative">
+                                  <select 
+                                    className="w-full appearance-none bg-brand-50 dark:bg-brand-500/10 border border-brand-100 dark:border-brand-500/20 rounded-xl px-4 py-3 pr-10 text-sm font-bold text-brand-700 dark:text-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500/50 transition-all cursor-pointer"
+                                    value={sortOrder} 
+                                    onChange={(e) => setSortOrder(e.target.value)}
+                                  >
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                  </select>
+                                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-500 pointer-events-none" />
+                              </div>
                             </div>
                           </div>
-
+                          
+                          {(leagueFilter || nationalityFilter || teamFilter || selectedDate) && (
+                               <div className="mt-6 flex justify-end border-t border-slate-100 dark:border-white/5 pt-4">
+                                  <button 
+                                      onClick={clearAllFilters} 
+                                      className="text-sm font-bold text-slate-500 hover:text-brand-500 transition-colors"
+                                  >
+                                      Clear All Filters
+                                  </button>
+                               </div>
+                          )}
                         </div>
-                        
-                        {(leagueFilter || nationalityFilter || teamFilter) && (
-                             <div className="mt-6 flex justify-end border-t border-slate-100 dark:border-white/5 pt-4">
-                                <button 
-                                    onClick={() => { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(''); }} 
-                                    className="text-sm font-bold text-slate-500 hover:text-brand-500 transition-colors"
+                    </div>
+                    
+                    {}
+                    {/* Date Timeline Filter */}
+                    <div className="w-full mt-2 mb-2">
+                        <div className="flex items-center gap-3 overflow-x-auto pb-4 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+                            <button
+                                onClick={() => setSelectedDate('')}
+                                className={`flex items-center gap-2 snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${
+                                    selectedDate === ''
+                                        ? 'bg-brand-500 text-white shadow-glow border border-transparent'
+                                        : 'bg-white dark:bg-[#121622] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-brand-500/30 dark:hover:border-brand-500/30 hover:bg-slate-50 dark:hover:bg-white/5'
+                                }`}
+                            >
+                                <Calendar className="w-4 h-4" /> All Days
+                            </button>
+                            {uniqueDates.map(date => (
+                                <button
+                                    key={date}
+                                    onClick={() => setSelectedDate(date)}
+                                    className={`snap-start shrink-0 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 ${
+                                        selectedDate === date
+                                            ? 'bg-brand-500 text-white shadow-glow border border-transparent'
+                                            : 'bg-white dark:bg-[#121622] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-brand-500/30 dark:hover:border-brand-500/30 hover:bg-slate-50 dark:hover:bg-white/5'
+                                    }`}
                                 >
-                                    Clear All Filters
+                                    {formatShortDate(date)}
                                 </button>
-                             </div>
-                        )}
-                      </div>
+                            ))}
+                        </div>
+                    </div>
                   </div>
 
+                  {}
                   {/* Main Transfer Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredAndSortedTransfers.length === 0 ? (
@@ -549,7 +580,7 @@
                         </div>
                         <h3 className="text-xl font-bold font-display text-slate-800 dark:text-slate-200 mb-2">No Transfers Found</h3>
                         <p className="text-slate-500 dark:text-slate-400 text-center max-w-sm mb-6">We couldn't find any transfers matching your current filters. Try adjusting them.</p>
-                        <button onClick={() => { setLeagueFilter(''); setNationalityFilter(''); setTeamFilter(''); }} className="px-6 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-xl hover:opacity-90 transition-opacity">
+                        <button onClick={clearAllFilters} className="px-6 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-xl hover:opacity-90 transition-opacity">
                           Clear Filters
                         </button>
                       </div>
@@ -557,11 +588,9 @@
                       filteredAndSortedTransfers.map((transfer) => (
                         <div key={transfer.id} className="group bg-white dark:bg-[#121622] rounded-[1.5rem] border border-slate-200 dark:border-white/5 overflow-hidden hover:border-brand-500/30 dark:hover:border-brand-500/30 hover:shadow-xl dark:hover:shadow-glow transition-all duration-300 flex flex-col">
                           
-                          {/* Card Header: Player Info */}
                           <div className="p-5 flex items-start gap-4">
                             <div className="relative shrink-0">
                                 <div className="absolute inset-0 bg-brand-500 rounded-full blur opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
-                                {/* Düzeltme: Proxy aracılığı devre dışı bırakıldı, doğrudan orjinal kalitede bağlanıyor. Avatar yedeği 200px yapıldı. */}
                                 <img 
                                     src={transfer.playerPhotoUrl ? transfer.playerPhotoUrl : generateAvatar(transfer.playerName, 200)} 
                                     alt={transfer.playerName} 
@@ -590,10 +619,8 @@
                             </div>
                           </div>
 
-                          {/* Card Body: Transfer Path */}
                           <div className="px-5 py-4 bg-slate-50/50 dark:bg-black/20 border-y border-slate-100 dark:border-white/5 flex flex-col justify-center flex-1">
                               <div className="flex items-center justify-between w-full">
-                                  {/* From */}
                                   <div className="flex-1 min-w-0 pr-2">
                                       <span 
                                         onClick={() => handleQuickFilter('team', transfer.fromClub)} 
@@ -602,13 +629,9 @@
                                           {transfer.fromClub}
                                       </span>
                                   </div>
-                                  
-                                  {/* Arrow */}
                                   <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-[#1a1c29] border border-slate-100 dark:border-white/5 text-slate-300 dark:text-slate-500 group-hover:text-brand-500 group-hover:border-brand-200 dark:group-hover:border-brand-500/30 transition-all">
                                       <ArrowRight className="w-4 h-4" />
                                   </div>
-
-                                  {/* To */}
                                   <div className="flex-1 min-w-0 pl-2 text-right">
                                       <span 
                                         onClick={() => handleQuickFilter('team', transfer.toClub)} 
@@ -620,7 +643,6 @@
                               </div>
                           </div>
 
-                          {/* Card Footer: Metadata & Actions */}
                           <div className="p-5 flex items-center justify-between">
                               <div className="flex flex-col gap-1 min-w-0">
                                   <div 
